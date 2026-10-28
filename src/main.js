@@ -1475,7 +1475,56 @@ function attachEventListeners() {
   );
 }
 
+function initSplashScreen() {
+  const splash = document.getElementById('gls-splash-screen');
+  if (!splash) return;
+
+  const dismissSplash = () => {
+    if (splash.classList.contains('is-hidden')) return;
+    splash.classList.add('is-hidden');
+    try {
+      sessionStorage.setItem('gls_splash_dismissed', '1');
+    } catch {
+      // Storage access blocked or incognito fallback
+    }
+    window.setTimeout(() => {
+      splash.style.display = 'none';
+    }, 900);
+  };
+
+  try {
+    const isAlreadyDismissed = sessionStorage.getItem('gls_splash_dismissed');
+    if (isAlreadyDismissed) {
+      splash.style.display = 'none';
+      return;
+    }
+  } catch {
+    // Continue with normal display
+  }
+
+  const skipBtn = document.getElementById('gls-splash-skip');
+  if (skipBtn) {
+    skipBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dismissSplash();
+    });
+  }
+
+  splash.addEventListener('click', dismissSplash);
+
+  // Auto-dismiss smoothly when progress bar completes (~1.7s)
+  const splashTimer = window.setTimeout(dismissSplash, 1750);
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !splash.classList.contains('is-hidden')) {
+      window.clearTimeout(splashTimer);
+      dismissSplash();
+    }
+  });
+}
+
 renderApp();
+initSplashScreen();
 attachEventListeners();
 initHomeCarousel();
 initGsapAnimations();
