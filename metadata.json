@@ -1,0 +1,6 @@
+{
+  "name": "GLS Collection — Law Garden Fashion Store Demo",
+  "description": "Premium responsive fashion e-commerce website presentation demo for GLS Collection (Law Garden), featuring Kidswear, Knitwear, Korean Tops, Dresses, and Everyday Fashion.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

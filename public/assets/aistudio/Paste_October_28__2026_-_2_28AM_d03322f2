@@ -1,0 +1,773 @@
+# GLS COLLECTION — PREMIUM MULTI-PAGE FASHION E-COMMERCE WEBSITE
+## Existing Project Upgrade | Shopify-Inspired | Mobile-First | Production-Quality Demo
+
+Act as a senior e-commerce architect, award-winning fashion e-commerce UI/UX designer, creative director, frontend engineer and motion designer.
+
+I already have an initial GLS COLLECTION storefront project built with HTML, CSS, Vanilla JavaScript and Vite. The current homepage and basic project structure exist.
+
+Your task is to UPGRADE THE EXISTING PROJECT into a sophisticated, fully responsive, multi-page fashion e-commerce presentation website.
+
+Do not start by generating another plan, a static website screenshot, or a completely separate sample project. First inspect the existing files, identify what works, and then implement the improvements directly in the current project.
+
+The output must be a working website with actual HTML pages, working links, shared components, functional interactions, sophisticated visual design and polished animations.
+
+==================================================
+01. BRAND CONTEXT
+==================================================
+
+Brand name: GLS COLLECTION
+Instagram: https://www.instagram.com/gls_collection_lawgarden/
+Business location context: Law Garden, Ahmedabad, Gujarat, India
+Business type: Fashion clothing retail
+
+The supplied Instagram screenshot is the brand reference.
+
+Visible product categories include:
+- Kidswear
+- Cardigans and knitwear
+- Tops and sweaters
+- Trousers and pants
+- Dresses and casual wear
+- Seasonal and festive clothing
+- New arrivals
+
+Brand messaging from the supplied reference:
+"Every Day, Something New"
+"Your One-Stop Fashion Destination"
+
+Preserve the brand's original logo and use supplied brand assets whenever available.
+
+Do not invent official addresses, verified ratings, customer testimonials, sales figures, contact details, brand history or store policies.
+
+This is a DEMONSTRATION WEBSITE. The goal is to show the client a compelling preview of a possible future e-commerce store.
+
+Do not implement real payments, real order placement or pretend to connect to a live inventory system.
+
+==================================================
+02. KEEP THE EXISTING TECH STACK
+==================================================
+
+Continue using:
+- HTML5
+- CSS3
+- Vanilla JavaScript, ES6+
+- Vite
+- GSAP with ScrollTrigger for premium motion effects
+- Lucide icons or the project's existing icon library
+
+Avoid introducing React, Next.js, Tailwind CSS or a backend.
+
+Keep the existing working functionality. Reuse the current product data, currency utilities, storage utilities and reusable components wherever practical.
+
+If a dependency is missing, add it correctly to package.json.
+
+Update vite.config.js if required for a multi-page Vite build.
+
+Do not discard working source files or replace the project with a static screenshot.
+
+==================================================
+03. CREATE A REAL MULTI-PAGE ARCHITECTURE
+==================================================
+
+This requirement is critical.
+
+The website must have multiple independently accessible HTML pages, not a single long homepage with sections pretending to be different pages.
+
+Create the following pages and implement their full content:
+
+1. index.html — Home
+2. collections.html — All collections
+3. collection.html — Individual collection/category
+4. product.html — Individual product details
+5. about.html — About GLS COLLECTION
+6. contact.html — Contact and store information
+7. search.html — Search results
+8. cart.html — Shopping cart
+9. wishlist.html — Saved products
+10. faq.html — Frequently asked questions
+11. policies.html — Demo store policies
+
+Use query parameters for dynamic collection and product pages.
+
+Examples:
+- collection.html?category=kidswear
+- collection.html?category=knitwear
+- collection.html?category=tops
+- product.html?handle=kids-casual-cord-set
+- product.html?handle=cute-bow-cardigan
+- search.html?q=cardigan
+
+All internal links must work when clicked, and direct navigation to a product URL must load the correct product.
+
+Every page must have page-specific content, a meaningful page title, the correct active navigation state and a consistent global header and footer.
+
+Configure Vite so every required HTML entry is included in the production build.
+
+Do not create separate HTML files for every single product. Reuse product.html and load the selected product from the existing product database using its URL handle.
+
+If an invalid product handle is supplied, show a polished product-not-found state with a link back to shopping.
+
+==================================================
+04. SHARED HEADER AND NAVIGATION
+==================================================
+
+Build one consistent header system for all pages.
+
+Desktop layout:
+- Slim announcement bar.
+- Brand logo.
+- Main navigation: Home, New Arrivals, Shop All, Kidswear, Women, Knitwear, About.
+- Search, wishlist and shopping bag controls.
+- Visible shopping bag item count.
+- Sticky header with a refined compact state on scroll.
+
+Mobile layout:
+- Compact top bar.
+- Hamburger menu.
+- Centered brand logo where the layout allows.
+- Search and shopping bag icons.
+- A proper full-screen or side-drawer navigation.
+- Accessible close button and smooth open/close transitions.
+- Optional bottom navigation for Home, Search, Wishlist and Bag.
+
+Navigation items must be actual links, not decorative text.
+
+Category navigation must open the corresponding filtered collection page.
+
+The active navigation item should be visually distinguishable.
+
+The header must look correct on every page and every screen size.
+
+==================================================
+05. HOME PAGE — /index.html
+==================================================
+
+Create a visually impressive, editorial fashion homepage.
+
+A. Announcement bar
+- Concise messaging such as "NEW ARRIVALS • EVERYDAY STYLE • DISCOVER YOUR NEXT FAVOURITE".
+- Subtle animated entrance.
+- Optional continuous ticker, if implemented elegantly.
+- Never invent a discount or an urgent offer.
+
+B. Premium hero campaign
+- Use a large, high-quality fashion photograph.
+- Create separate mobile and desktop image treatments.
+- Headline: "Everyday Style, Beautifully Found."
+- Supporting copy: "Fresh looks for every little moment."
+- Main CTA: "Shop New Arrivals".
+- Secondary CTA: "Explore Collections".
+- Strong art direction, attractive image cropping and beautiful typography.
+- Use an editorial composition rather than a generic gradient background.
+- Give the hero an elegant entrance animation without delaying access to the page.
+
+C. Shop by category
+Create image-led category cards for:
+- Kidswear
+- Knitwear
+- Tops & Tees
+- Pants & Bottoms
+- Dresses
+- New Arrivals
+
+Every card must navigate to the appropriate collection page.
+
+D. New arrivals
+- At least six product cards on desktop where space permits.
+- Responsive two-column grid on mobile.
+- Show product photography, name, category and INR price.
+- Add a wishlist heart.
+- Add quick view and Add to Bag controls.
+- Include a "View All" link.
+
+E. Editorial feature
+- Full-width or split-layout campaign section.
+- Strong photography and elegant typography.
+- Short copy about everyday fashion.
+- CTA linking to a relevant collection.
+
+F. Featured or trending collection
+- A second curated product section.
+- Reuse real product data and card components.
+- Avoid repetitive sections that make the page excessively long.
+
+G. Instagram showcase
+- Use images supplied by the user where available.
+- Create a curated visual grid.
+- Link to the official Instagram profile.
+- Label it as an Instagram-inspired showcase unless a real integration exists.
+
+H. Brand introduction
+- Briefly introduce GLS COLLECTION using the supplied business context.
+- Link to the About page.
+
+I. Store discovery
+- A store information section with a location CTA.
+- Use the exact Google Maps link supplied by the client when available.
+- Do not fabricate directions or an exact address.
+
+J. Newsletter demonstration
+- Email field and subscribe button.
+- Validate the email input.
+- Display an honest demo confirmation.
+- Do not pretend to store subscriptions remotely or send emails.
+
+K. Footer
+- Brand identity.
+- Shop links.
+- Help links.
+- Contact page.
+- FAQ and policy pages.
+- Instagram.
+- Store location.
+- Small copyright line.
+
+The homepage should feel like the beginning of a genuine shopping journey, not a portfolio page.
+
+==================================================
+06. ALL COLLECTIONS PAGE — /collections.html
+==================================================
+
+Build a dedicated collection discovery page.
+
+Include:
+- Breadcrumb navigation.
+- Page heading: "Explore Collections".
+- Short editorial introduction.
+- Large visual category tiles.
+- Collection photography.
+- Collection names and shopping links.
+- Optional curated feature banner.
+- A clear path into the product catalogue.
+
+Show all available product categories using the actual category data.
+
+Every category tile must navigate to collection.html with the correct category query parameter.
+
+When a category contains no products, handle the empty state gracefully.
+
+==================================================
+07. INDIVIDUAL COLLECTION PAGE — /collection.html
+==================================================
+
+This page must behave like a proper Shopify-inspired collection listing.
+
+At the top:
+- Breadcrumbs.
+- Collection title.
+- Collection description.
+- Optional campaign banner.
+- Number of matching products.
+
+Product browsing features:
+- Responsive product grid.
+- Filter by category.
+- Filter by price range.
+- Filter by size when relevant to the products.
+- Filter by availability.
+- Sort by featured, newest, price low-to-high and price high-to-low.
+- Clear all filters.
+- Active filter chips.
+- Product count updates when filtering.
+- Optional load-more button if the catalogue is large enough.
+
+Desktop:
+- Refined sidebar or horizontal filter controls.
+- Spacious product grid.
+- Clear separation between filters and products.
+
+Mobile:
+- Full-width product grid with two columns.
+- Compact sorting control.
+- Filter button opening a polished bottom sheet or drawer.
+- Easy-to-tap filter options.
+- Sticky filter/sort row only if it does not block content.
+
+Every product card must navigate to the correct product detail page.
+
+Preserve selected category and relevant filter state in the URL where practical.
+
+Do not reload the entire application unnecessarily for every filter change.
+
+==================================================
+08. PRODUCT DETAIL PAGE — /product.html
+==================================================
+
+This page is one of the most important parts of the project.
+
+Create a premium fashion product detail experience.
+
+Desktop:
+- Two-column layout.
+- Large product image gallery on the left.
+- Sticky purchase information panel on the right where appropriate.
+- Clean vertical rhythm and balanced whitespace.
+
+Mobile:
+- Large touch-friendly image gallery.
+- Swipe-capable gallery if practical.
+- Product information immediately below the image.
+- Full-width purchase button.
+- Easy-to-select sizes and quantity.
+- No overlapping sticky elements.
+
+Product image gallery:
+- Main image.
+- Thumbnail navigation.
+- Previous and next controls if appropriate.
+- Optional image zoom or lightbox.
+- Clear selected-thumbnail state.
+
+Product information:
+- Breadcrumb.
+- Product name.
+- Category.
+- Price in Indian rupees.
+- Compare-at price only when real demo data specifies one.
+- Size selector.
+- Color options only when supported by the product data.
+- Quantity selector.
+- Stock status based on demo data, clearly identified as sample inventory.
+- Add to Bag button.
+- Wishlist toggle.
+- Short product description.
+
+Add supporting information panels or accordions for:
+- Product details.
+- Size and fit.
+- Shipping information.
+- Return or exchange information.
+
+Policy descriptions must be labeled as demo information until the store confirms its official policy.
+
+Add a product-added confirmation toast and open or update the shopping bag interaction after adding an item.
+
+Use actual selected size and color when storing the product in the cart.
+
+Add a "You May Also Like" section with related products.
+
+Product links must be generated from real product handles, not array positions alone.
+
+If the product has no available size variants, do not force the customer to select a size.
+
+==================================================
+09. ABOUT PAGE — /about.html
+==================================================
+
+Make this page feel like a genuine brand presentation.
+
+Include:
+- Elegant hero image.
+- Heading: "Discover GLS COLLECTION".
+- A concise introduction to the store as a fashion shopping destination.
+- Fashion and store imagery.
+- A section about discovering styles for everyday dressing.
+- Category discovery links.
+- An Instagram connection.
+- Store location CTA.
+
+Use only the actual business context provided.
+
+Do not invent the founding year, founder names, manufacturing details, sustainability claims or an unsupported brand story.
+
+The page should feel warm, stylish and credible, not like a generic AI-generated corporate About Us template.
+
+==================================================
+10. CONTACT PAGE — /contact.html
+==================================================
+
+Include:
+- Page title and introduction.
+- Editable store details.
+- Official Instagram link.
+- Google Maps location button.
+- Optional contact form.
+- Name, email, subject and message fields.
+- Frontend validation and accessible error states.
+- Clear demo submission feedback.
+
+Do not invent a phone number, email address, physical street address or working contact integration.
+
+If those details have not been provided, show simple editable placeholders that are easy to replace before the client presentation.
+
+Do not claim a form message has been sent to the store.
+
+==================================================
+11. SEARCH PAGE — /search.html
+==================================================
+
+Implement a real client-side search against the current product dataset.
+
+Support:
+- Product names.
+- Categories.
+- Relevant product descriptions.
+- Search query from the URL.
+- Search input that remains editable.
+- Result count.
+- Suggested categories when useful.
+- Matching product cards.
+- A helpful empty state.
+- Link back to shopping.
+
+Search from the header must open the search page with the entered query.
+
+Search must be functional on both desktop and mobile.
+
+==================================================
+12. CART PAGE — /cart.html
+==================================================
+
+Build a complete demo cart experience.
+
+Features:
+- Product thumbnail.
+- Product name.
+- Selected size and color when applicable.
+- Unit price.
+- Quantity controls.
+- Remove item.
+- Updated subtotal.
+- Continue Shopping link.
+- Checkout CTA.
+- Empty cart state with a shopping CTA.
+
+The cart drawer and cart page must share the same underlying cart data.
+
+Persist cart contents using localStorage.
+
+Do not create separate competing cart states across different pages.
+
+Show a clear empty state when nothing has been added.
+
+If implementing a shipping threshold as demo content, label it as a demonstration value rather than an official GLS COLLECTION policy.
+
+==================================================
+13. WISHLIST PAGE — /wishlist.html
+==================================================
+
+Implement:
+- Saved product grid.
+- Remove from wishlist.
+- Move to bag.
+- Product detail links.
+- Wishlist count in the shared header.
+- Empty wishlist state.
+
+Persist wishlist contents using localStorage.
+
+Wishlist hearts on collection cards and product pages must stay synchronized.
+
+==================================================
+14. FAQ AND POLICIES
+==================================================
+
+FAQ page:
+- Product sizing.
+- Shopping demonstration.
+- Cart functionality.
+- Delivery information.
+- Returns and exchanges.
+- Contacting the store.
+
+Policies page:
+- Shipping.
+- Returns and exchanges.
+- Privacy.
+- Terms.
+
+Do not present unverified rules as official GLS COLLECTION policies. Mark sample policy copy as illustrative and editable.
+
+==================================================
+15. SHARED PRODUCT DATA AND COMPONENTS
+==================================================
+
+Keep product information in a single reusable data source.
+
+Each product should support:
+- id
+- handle
+- name
+- category
+- price
+- optional compareAtPrice
+- images
+- optional secondary image
+- sizes
+- colors
+- description
+- details
+- inStock
+- featured
+- isNewArrival
+- optional related product handles
+
+Use a minimum of 12 well-organized demo products if sufficient product data does not already exist.
+
+Keep sample prices clearly editable and formatted using Indian rupees.
+
+Build reusable functions or components for:
+- Header
+- Footer
+- Product card
+- Product grid
+- Breadcrumbs
+- Cart drawer
+- Wishlist
+- Search
+- Toast notifications
+- Mobile navigation
+- Filters
+- Product gallery
+
+Avoid maintaining separate copies of the same product information across different pages.
+
+==================================================
+16. HIGH-END VISUAL DESIGN SYSTEM
+==================================================
+
+The existing site looks too ordinary. Elevate it into a carefully art-directed fashion retail experience.
+
+Visual direction:
+- Refined Indian fashion boutique.
+- Premium editorial commerce design.
+- Modern retail merchandising.
+- Strong product photography.
+- Sophisticated typography.
+- Rich but restrained colors.
+- Beautiful whitespace.
+- Distinctive composition.
+- Clean product information hierarchy.
+
+Proposed palette:
+- Warm ivory: #F8F5F0
+- Deep burgundy: #671F32
+- Near-black: #181615
+- Soft blush: #E8D4D0
+- Muted taupe: #B5A69A
+- Pure white: #FFFFFF
+
+Use the original brand colors from the supplied logo where they improve consistency. Treat these colors as a starting direction, not a reason to recolor the logo.
+
+Typography:
+- An elegant editorial serif for large headings.
+- A highly legible sans-serif for UI and body text.
+- Consider Playfair Display or Cormorant Garamond paired with DM Sans.
+- Load fonts efficiently and include sensible fallbacks.
+- Keep mobile body text comfortably readable.
+
+Avoid:
+- Generic purple-to-blue gradients.
+- Excessive glassmorphism.
+- Too many rounded cards.
+- Huge empty spaces.
+- Repetitive pill-shaped buttons.
+- Cartoonish icons.
+- Fake sales badges.
+- Unnecessary borders around every section.
+- Overused shadows.
+- A generic SaaS-dashboard appearance.
+
+Use sophisticated typography, real imagery, asymmetrical editorial compositions where appropriate, full-bleed photographs, refined dividers and deliberate spacing.
+
+Product cards should be clean and image-led.
+
+Use subtle image zoom, an optional alternate product image on hover, an elegant wishlist heart and restrained button transitions.
+
+Do not apply heavy animations to every element.
+
+==================================================
+17. PREMIUM ANIMATION SYSTEM
+==================================================
+
+Use GSAP and ScrollTrigger where they genuinely add value.
+
+A. Initial page entrance
+- Refined hero content reveal.
+- Image reveals with carefully controlled motion.
+- Staggered appearance for major elements.
+- Keep the total entrance quick and unobtrusive.
+
+B. Scroll reveals
+- Fade-up or subtle clip-path reveal for selected sections.
+- Staggered product card entrances.
+- Category image reveals.
+- Editorial text and imagery transitions.
+- Trigger animations only when content approaches the viewport.
+
+C. Navigation interactions
+- Smooth mobile navigation drawer.
+- Elegant menu icon state changes.
+- Refined header background and spacing transition during scroll.
+- Visual feedback on interactive icons.
+
+D. Product cards
+- Gentle image zoom on hover.
+- Optional alternate image on hover when a real secondary image is available.
+- Animated wishlist toggle.
+- Subtle Add to Bag feedback.
+- No layout shifts.
+
+E. Product detail
+- Smooth gallery thumbnail changes.
+- Subtle image reveal.
+- Animated size selection state.
+- Clear cart-added toast transition.
+- Smooth related-product entrance.
+
+F. Cart and wishlist
+- Smooth cart drawer open and close.
+- Staggered cart row entrance where useful.
+- Subtle cart count update.
+- Clear confirmation after adding or removing an item.
+
+G. Page transitions
+- Use the View Transitions API only if suitable and support it with a normal navigation fallback.
+- Alternatively implement short page entrance animations.
+- Navigation must remain reliable when JavaScript animations fail.
+
+Important animation constraints:
+- Keep interactions responsive.
+- Never block a user behind a prolonged intro.
+- Avoid fake scroll hijacking and unnecessary cursor effects.
+- Avoid a huge parallax effect on small screens.
+- Respect prefers-reduced-motion.
+- Ensure all navigation remains usable without animations.
+- Prevent layout shifts and horizontal overflow.
+- Clean up GSAP ScrollTrigger instances or listeners when necessary.
+
+==================================================
+18. IMAGE QUALITY AND ART DIRECTION
+==================================================
+
+Use supplied GLS COLLECTION product photographs and the original logo wherever available.
+
+Prioritize natural, retail-ready clothing photography with:
+- Realistic fabric texture.
+- Accurate garment shapes.
+- Natural folds and stitching.
+- Believable skin texture in lifestyle images.
+- Realistic studio or boutique lighting.
+- Consistent framing.
+- Appropriate garment proportions.
+- Consistent image ratios within each product grid.
+
+Never embed an entire website mockup as the page background.
+
+Never use an image of a fake website UI in place of real clickable HTML content.
+
+Never generate text as part of a product photograph if the text can instead be rendered as HTML.
+
+If image generation is available, create separate campaign and category assets that fit the layout. Save and reference the actual generated asset files instead of merely describing them.
+
+If image generation is not available, use the assets already supplied or reliable, appropriately licensed fashion photographs. Do not create fake image filenames or leave broken URLs.
+
+Do not use the same picture for every product. When suitable real photographs are not yet available, keep the image mappings easy to replace.
+
+Make image alt text meaningful and use appropriate object-fit behavior for each image type.
+
+==================================================
+19. MOBILE-FIRST QUALITY BAR
+==================================================
+
+Mobile is the primary presentation device.
+
+Test at:
+- 320px
+- 360px
+- 390px
+- 430px
+- 768px
+- 1024px
+- 1440px
+
+Requirements:
+- No horizontal scrolling.
+- No clipped headings.
+- No overlapping header or bottom navigation.
+- No tiny product buttons.
+- No inaccessible modal close controls.
+- No cut-off product price or title.
+- No broken filter drawer.
+- No oversized desktop images on mobile.
+- No sticky element that hides content.
+- No accidental page refresh that discards unsaved cart changes.
+
+Use mobile-specific image crops and a carefully considered two-column product grid.
+
+Make the phone version look intentionally designed, not like the desktop version compressed into a narrow screen.
+
+==================================================
+20. TECHNICAL QUALITY AND TESTING
+==================================================
+
+- Use semantic HTML and accessible labels.
+- Use keyboard-friendly controls.
+- Use safe text rendering for product content.
+- Validate URL query parameters.
+- Handle missing images gracefully.
+- Handle empty arrays and invalid product handles.
+- Keep localStorage access resilient.
+- Keep event listeners and shared state under control.
+- Use proper currency formatting.
+- Avoid console errors.
+- Avoid dead links and placeholder buttons that appear functional.
+- Add descriptive page titles and meta descriptions.
+- Keep dependencies documented.
+- Ensure each HTML page builds successfully with Vite.
+- Ensure CSS and JavaScript paths resolve correctly from every page.
+- Keep images optimized and avoid loading all below-the-fold images eagerly.
+- Verify that direct navigation and browser refresh work on every HTML page.
+
+Run the production build if the environment supports terminal execution. Fix identifiable build errors.
+
+Do not claim to have run a test or build unless you actually did so.
+
+==================================================
+21. FINAL IMPLEMENTATION PROCESS
+==================================================
+
+Work in this order:
+
+STEP 1:
+Inspect the current project and reuse the existing code, design tokens, products and utilities.
+
+STEP 2:
+Create every required page and configure the Vite multi-page build.
+
+STEP 3:
+Implement shared navigation, footer, product data, URL handling, cart, wishlist and search.
+
+STEP 4:
+Implement the individual page layouts and page-specific content.
+
+STEP 5:
+Apply the refined GLS COLLECTION design system consistently across all pages.
+
+STEP 6:
+Add and tune the animation system, including reduced-motion behavior.
+
+STEP 7:
+Verify navigation, responsive layouts and all interactive shopping controls.
+
+STEP 8:
+Run the production build and correct problems when execution is available.
+
+Do not stop after creating empty page templates or showing a visual preview.
+
+Do not deliver only a design plan or partial code snippets. Modify the actual project files.
+
+At completion, provide a concise summary of:
+- Pages created.
+- Features that work.
+- Files added or changed.
+- Commands to run the site.
+- Any real product images or verified business information still required.
+
+FINAL ACCEPTANCE CRITERION:
+
+A client must be able to open the homepage, explore collections, open a product, select a size, add it to the bag, navigate to the cart, save a wishlist item, search products, visit the About page and return to shopping without encountering dead links.
+
+The result should feel like a professionally designed, premium fashion e-commerce storefront inspired by Shopify quality, not an ordinary generated landing page.
+
+Begin by inspecting the existing project, then implement the upgrade directly.
