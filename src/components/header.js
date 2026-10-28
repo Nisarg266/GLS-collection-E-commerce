@@ -62,8 +62,8 @@ export function renderHeader({
               src="${BRAND_CONFIG.assets.logo}"
               alt="${BRAND_CONFIG.name} logo"
               class="brand-logo-img"
-              width="36"
-              height="36"
+              width="50"
+              height="50"
               referrerpolicy="no-referrer"
             />
             <span class="brand-wordmark">${BRAND_CONFIG.name}</span>
@@ -180,16 +180,16 @@ export function renderFooter() {
       <div class="container">
         <div class="footer-grid">
           <div>
-            <a href="/index.html" class="brand-logo-link">
+            <a href="/index.html" class="brand-logo-link" style="gap: 0.75rem;">
               <img
                 src="${BRAND_CONFIG.assets.logo}"
                 alt="${BRAND_CONFIG.name} logo"
-                class="brand-logo-img"
-                width="40"
-                height="40"
+                class="brand-logo-img brand-logo-img--footer"
+                width="58"
+                height="58"
                 referrerpolicy="no-referrer"
               />
-              <span class="brand-wordmark" style="color: #ffffff; font-size: 1.3rem;">${BRAND_CONFIG.name}</span>
+              <span class="brand-wordmark" style="color: #ffffff; font-size: 1.35rem; letter-spacing: 0.05em;">${BRAND_CONFIG.name}</span>
             </a>
             <p class="footer-brand-desc">
               ${BRAND_CONFIG.tagline} · ${BRAND_CONFIG.subTagline}. Fashion clothing retail destination in ${BRAND_CONFIG.locationContext}.

@@ -179,8 +179,14 @@ export function renderDemoCheckoutModal({
   const contentHtml = orderConfirmed
     ? `
       <div style="padding: var(--space-8); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-4);">
-        <div style="width: 52px; height: 52px; border-radius: 50%; background: var(--color-accent-soft); color: var(--color-accent); display: flex; align-items: center; justify-content: center;">
-          ${renderIcon('check', 26)}
+        <img
+          src="${BRAND_CONFIG.assets.logo}"
+          alt="${BRAND_CONFIG.name}"
+          style="width: 68px; height: 68px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08));"
+          referrerpolicy="no-referrer"
+        />
+        <div style="width: 44px; height: 44px; border-radius: 50%; background: var(--color-accent-soft); color: var(--color-accent); display: flex; align-items: center; justify-content: center;">
+          ${renderIcon('check', 22)}
         </div>
         <span class="section-kicker">DEMO MODE • SIMULATED ORDER</span>
         <h2 class="section-title" style="font-size: 1.75rem;">Demo Order Preview Confirmed</h2>

@@ -32,8 +32,8 @@ export function renderMobileNavigationDrawer({ isOpen = false, activeNav = 'home
             src="${BRAND_CONFIG.assets.logo}"
             alt="${BRAND_CONFIG.name}"
             class="brand-logo-img"
-            width="32"
-            height="32"
+            width="44"
+            height="44"
             referrerpolicy="no-referrer"
           />
           <span class="drawer__title">${BRAND_CONFIG.name}</span>

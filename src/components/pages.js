@@ -1004,6 +1004,19 @@ export function renderAboutPage() {
       <div class="container">
         <div class="story-grid" style="margin-bottom: var(--space-12);">
           <div class="info-panel">
+            <div style="display: flex; align-items: center; gap: 1.25rem; margin-bottom: var(--space-5); padding-bottom: var(--space-4); border-bottom: 1px solid var(--color-border);">
+              <img
+                src="${BRAND_CONFIG.assets.logo}"
+                alt="${BRAND_CONFIG.name} Emblem"
+                style="width: 76px; height: 76px; object-fit: contain; filter: drop-shadow(0 4px 10px rgba(0,0,0,0.08));"
+                referrerpolicy="no-referrer"
+              />
+              <div>
+                <span class="section-kicker">OFFICIAL BRAND IDENTITY</span>
+                <div style="font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--color-text); line-height: 1.15;">${BRAND_CONFIG.name}</div>
+                <div style="font-size: var(--text-xs); color: var(--color-accent); font-weight: 600; margin-top: 2px;">${BRAND_CONFIG.tagline} • ${BRAND_CONFIG.subTagline}</div>
+              </div>
+            </div>
             <span class="section-kicker">BRAND INTRODUCTION</span>
             <h1 class="section-title" id="about-heading">Discover GLS COLLECTION</h1>
             <p style="font-size: var(--text-md); color: var(--color-text-secondary);">
@@ -1119,8 +1132,18 @@ export function renderContactPage({ contactState = {} } = {}) {
 
         <div class="store-grid">
           <div class="info-panel">
-            <span class="section-kicker">SHOWROOM DETAILS</span>
-            <h2 class="section-title" style="font-size: 1.75rem;">${BRAND_CONFIG.name}</h2>
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: var(--space-4); padding-bottom: var(--space-3); border-bottom: 1px solid var(--color-border);">
+              <img
+                src="${BRAND_CONFIG.assets.logo}"
+                alt="${BRAND_CONFIG.name} Logo"
+                style="width: 60px; height: 60px; object-fit: contain; filter: drop-shadow(0 2px 8px rgba(0,0,0,0.06));"
+                referrerpolicy="no-referrer"
+              />
+              <div>
+                <span class="section-kicker">SHOWROOM DETAILS</span>
+                <h2 class="section-title" style="font-size: 1.5rem; margin: 0;">${BRAND_CONFIG.name}</h2>
+              </div>
+            </div>
 
             <div class="store-details-list">
               <div>
