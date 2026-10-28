@@ -43,6 +43,39 @@
     width: 36px;
     height: 36px;
   }
+
+  /* Modal Responsive Layout (Zero Cutoff & Zero Horizontal Overflow) */
+  .modal-container {
+    padding: 0.75rem;
+  }
+
+  .modal-card {
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  .checkout-modal__body {
+    padding: 1.15rem 1rem;
+    gap: var(--space-3);
+  }
+
+  .checkout-modal__confirmed {
+    padding: var(--space-5) var(--space-3);
+  }
+
+  .checkout-modal__actions {
+    flex-direction: column-reverse;
+    gap: 0.55rem;
+    align-items: stretch;
+  }
+
+  .checkout-modal__actions .btn {
+    width: 100%;
+    min-height: 42px;
+    padding: 0.65rem 1rem;
+    white-space: normal;
+    text-align: center;
+  }
 }
 
 /* Compact Mobile Phones (up to 420px) */

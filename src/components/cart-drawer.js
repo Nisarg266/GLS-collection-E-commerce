@@ -178,7 +178,7 @@ export function renderDemoCheckoutModal({
 
   const contentHtml = orderConfirmed
     ? `
-      <div style="padding: var(--space-8); text-align: center; display: flex; flex-direction: column; align-items: center; gap: var(--space-4);">
+      <div class="checkout-modal__confirmed">
         <img
           src="${BRAND_CONFIG.assets.logo}"
           alt="${BRAND_CONFIG.name}"
@@ -194,7 +194,7 @@ export function renderDemoCheckoutModal({
           Reference <strong>#${orderConfirmed.orderId}</strong> for <strong>${orderConfirmed.customerName}</strong> (${orderConfirmed.itemCount} items · ${formatINR(orderConfirmed.total)}).
           Because this is a client presentation demo, no real payment or order dispatch has been processed.
         </p>
-        <div style="display: flex; gap: 0.75rem;">
+        <div class="checkout-modal__actions" style="justify-content: center;">
           <a href="/collections.html" class="btn btn--primary" data-action="close-overlays">
             Continue Shopping
           </a>
@@ -202,7 +202,7 @@ export function renderDemoCheckoutModal({
       </div>
     `
     : `
-      <div style="padding: var(--space-6); display: flex; flex-direction: column; gap: var(--space-4);">
+      <div class="checkout-modal__body">
         <div class="demo-mode-banner">
           <strong>DEMO MODE — CLIENT PRESENTATION ONLY:</strong> This screen demonstrates how customers will complete orders once payment gateway or WhatsApp/COD checkout is connected. Do not enter real financial details.
         </div>
@@ -268,7 +268,7 @@ export function renderDemoCheckoutModal({
             <span>${formatINR(summary.subtotal)}</span>
           </div>
 
-          <div style="display: flex; gap: 0.75rem; justify-content: flex-end; padding-top: 0.5rem;">
+          <div class="checkout-modal__actions">
             <button type="button" class="btn btn--outline" data-action="close-overlays">
               Cancel
             </button>
