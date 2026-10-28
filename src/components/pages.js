@@ -671,7 +671,7 @@ export function renderProductDetailPage({
               product.sizes && product.sizes.length > 0
                 ? `
                   <div class="option-group">
-                    <span class="option-label">Size: <strong>${activeSize}</strong></span>
+                    <span class="option-label" data-pdp-size-label>Size: <strong>${activeSize}</strong></span>
                     <div class="option-choices" role="radiogroup" aria-label="Select size">
                       ${product.sizes
                         .map(
@@ -698,7 +698,7 @@ export function renderProductDetailPage({
               colors.length > 0
                 ? `
                   <div class="option-group">
-                    <span class="option-label">Color / Finish: <strong>${activeColor}</strong></span>
+                    <span class="option-label" data-pdp-color-label>Color / Finish: <strong>${activeColor}</strong></span>
                     <div class="option-choices" role="radiogroup" aria-label="Select color">
                       ${colors
                         .map(
@@ -733,7 +733,7 @@ export function renderProductDetailPage({
                   >
                     ${renderIcon('minus', 14)}
                   </button>
-                  <span class="qty-stepper__val">${quantity}</span>
+                  <span class="qty-stepper__val" data-pdp-qty-val>${quantity}</span>
                   <button
                     type="button"
                     class="qty-stepper__btn"
@@ -758,7 +758,7 @@ export function renderProductDetailPage({
                 data-product-id="${product.id}"
               >
                 ${renderIcon('bag', 17)}
-                <span>Add to Bag · ${formatINR(product.price * quantity)}</span>
+                <span data-pdp-bag-text>Add to Bag · ${formatINR(product.price * quantity)}</span>
               </button>
 
               <button

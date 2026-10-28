@@ -488,7 +488,6 @@ function refreshMainContentOnly() {
   }
   renderOverlaysAndBadges();
   initHomeCarousel();
-  initGsapAnimations();
 }
 
 let homeCarouselCleanup = null;
@@ -914,28 +913,6 @@ function initGsapAnimations() {
 
       // 3. Product Detail Page (PDP) Animations
       if (state.page === 'product') {
-        const pdpGallery = document.querySelector('.pdp-gallery-sticky');
-        const pdpInfo = document.querySelector('.pdp-info-sticky');
-        if (pdpGallery) {
-          gsap.fromTo(pdpGallery, { opacity: 0, x: -16 }, {
-            opacity: 1,
-            x: 0,
-            duration: 0.56,
-            ease: 'power2.out',
-            clearProps: 'opacity,transform',
-          });
-        }
-        if (pdpInfo) {
-          gsap.fromTo(pdpInfo, { opacity: 0, x: 16 }, {
-            opacity: 1,
-            x: 0,
-            duration: 0.56,
-            delay: 0.06,
-            ease: 'power2.out',
-            clearProps: 'opacity,transform',
-          });
-        }
-
         const relatedCards = gsap.utils.toArray('.section--compact .product-grid .product-card');
         if (relatedCards.length) {
           gsap.fromTo(relatedCards, { opacity: 0, y: 20 }, {
@@ -1262,10 +1239,26 @@ function handleActionClick(actionBtn) {
       break;
     }
 
-    // Dedicated Product Detail Page (product.html) actions
+    // Dedicated Product Detail Page (product.html) actions - IN-PLACE ZERO FLICKER
     case 'page-pdp-select-image': {
-      state.pdpPageState.imageIndex = Number(actionBtn.dataset.imageIndex) || 0;
-      refreshMainContentOnly();
+      const idx = Number(actionBtn.dataset.imageIndex) || 0;
+      state.pdpPageState.imageIndex = idx;
+      const product = findProductByHandleOrId(state.pdpHandle);
+      if (product && product.images?.[idx]) {
+        const mainImg = document.querySelector('.pdp-main-stage img, .pdp-main-img');
+        if (mainImg) {
+          mainImg.style.opacity = '0.35';
+          mainImg.src = product.images[idx];
+          mainImg.onload = () => { mainImg.style.opacity = '1'; };
+        }
+        document.querySelectorAll('[data-action="page-pdp-select-image"]').forEach((btn, i) => {
+          btn.classList.toggle('is-active', i === idx);
+        });
+        const zoomBtn = document.querySelector('.pdp-zoom-btn');
+        if (zoomBtn) zoomBtn.dataset.imageSrc = product.images[idx];
+      } else {
+        refreshMainContentOnly();
+      }
       break;
     }
 
@@ -1273,9 +1266,19 @@ function handleActionClick(actionBtn) {
       const product = findProductByHandleOrId(state.pdpHandle);
       if (!product || !product.images?.length) return;
       const count = product.images.length;
-      state.pdpPageState.imageIndex =
-        (state.pdpPageState.imageIndex - 1 + count) % count;
-      refreshMainContentOnly();
+      const newIdx = (state.pdpPageState.imageIndex - 1 + count) % count;
+      state.pdpPageState.imageIndex = newIdx;
+      const mainImg = document.querySelector('.pdp-main-stage img, .pdp-main-img');
+      if (mainImg) {
+        mainImg.style.opacity = '0.35';
+        mainImg.src = product.images[newIdx];
+        mainImg.onload = () => { mainImg.style.opacity = '1'; };
+      }
+      document.querySelectorAll('[data-action="page-pdp-select-image"]').forEach((btn, i) => {
+        btn.classList.toggle('is-active', i === newIdx);
+      });
+      const zoomBtn = document.querySelector('.pdp-zoom-btn');
+      if (zoomBtn) zoomBtn.dataset.imageSrc = product.images[newIdx];
       break;
     }
 
@@ -1283,9 +1286,19 @@ function handleActionClick(actionBtn) {
       const product = findProductByHandleOrId(state.pdpHandle);
       if (!product || !product.images?.length) return;
       const count = product.images.length;
-      state.pdpPageState.imageIndex =
-        (state.pdpPageState.imageIndex + 1) % count;
-      refreshMainContentOnly();
+      const newIdx = (state.pdpPageState.imageIndex + 1) % count;
+      state.pdpPageState.imageIndex = newIdx;
+      const mainImg = document.querySelector('.pdp-main-stage img, .pdp-main-img');
+      if (mainImg) {
+        mainImg.style.opacity = '0.35';
+        mainImg.src = product.images[newIdx];
+        mainImg.onload = () => { mainImg.style.opacity = '1'; };
+      }
+      document.querySelectorAll('[data-action="page-pdp-select-image"]').forEach((btn, i) => {
+        btn.classList.toggle('is-active', i === newIdx);
+      });
+      const zoomBtn = document.querySelector('.pdp-zoom-btn');
+      if (zoomBtn) zoomBtn.dataset.imageSrc = product.images[newIdx];
       break;
     }
 
@@ -1296,32 +1309,80 @@ function handleActionClick(actionBtn) {
     }
 
     case 'page-pdp-select-size': {
-      state.pdpPageState.size = actionBtn.dataset.size || 'Free Size';
-      refreshMainContentOnly();
+      const sz = actionBtn.dataset.size || 'Free Size';
+      state.pdpPageState.size = sz;
+      const sizeLabel = document.querySelector('[data-pdp-size-label]');
+      if (sizeLabel) {
+        sizeLabel.innerHTML = `Size: <strong>${sz}</strong>`;
+      }
+      const choices = actionBtn.closest('.option-choices');
+      if (choices) {
+        choices.querySelectorAll('[data-action="page-pdp-select-size"]').forEach((btn) => {
+          btn.classList.remove('is-selected');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        actionBtn.classList.add('is-selected');
+        actionBtn.setAttribute('aria-pressed', 'true');
+      } else {
+        refreshMainContentOnly();
+      }
       break;
     }
 
     case 'page-pdp-select-color': {
-      state.pdpPageState.color = actionBtn.dataset.color || 'Standard';
-      refreshMainContentOnly();
+      const clr = actionBtn.dataset.color || 'Standard';
+      state.pdpPageState.color = clr;
+      const colorLabel = document.querySelector('[data-pdp-color-label]');
+      if (colorLabel) {
+        colorLabel.innerHTML = `Color / Finish: <strong>${clr}</strong>`;
+      }
+      const choices = actionBtn.closest('.option-choices');
+      if (choices) {
+        choices.querySelectorAll('[data-action="page-pdp-select-color"]').forEach((btn) => {
+          btn.classList.remove('is-selected');
+          btn.setAttribute('aria-pressed', 'false');
+        });
+        actionBtn.classList.add('is-selected');
+        actionBtn.setAttribute('aria-pressed', 'true');
+      } else {
+        refreshMainContentOnly();
+      }
       break;
     }
 
     case 'page-pdp-qty-dec': {
-      state.pdpPageState.quantity = Math.max(
-        1,
-        (state.pdpPageState.quantity || 1) - 1
-      );
-      refreshMainContentOnly();
+      const product = findProductByHandleOrId(state.pdpHandle);
+      const newQty = Math.max(1, (state.pdpPageState.quantity || 1) - 1);
+      state.pdpPageState.quantity = newQty;
+      const qtyVal = document.querySelector('[data-pdp-qty-val]');
+      if (qtyVal) {
+        qtyVal.textContent = String(newQty);
+        qtyVal.classList.remove('is-bumped');
+        void qtyVal.offsetWidth;
+        qtyVal.classList.add('is-bumped');
+      }
+      const bagText = document.querySelector('[data-pdp-bag-text]');
+      if (bagText && product) {
+        bagText.textContent = `Add to Bag · ${formatINR(product.price * newQty)}`;
+      }
       break;
     }
 
     case 'page-pdp-qty-inc': {
-      state.pdpPageState.quantity = Math.min(
-        20,
-        (state.pdpPageState.quantity || 1) + 1
-      );
-      refreshMainContentOnly();
+      const product = findProductByHandleOrId(state.pdpHandle);
+      const newQty = Math.min(20, (state.pdpPageState.quantity || 1) + 1);
+      state.pdpPageState.quantity = newQty;
+      const qtyVal = document.querySelector('[data-pdp-qty-val]');
+      if (qtyVal) {
+        qtyVal.textContent = String(newQty);
+        qtyVal.classList.remove('is-bumped');
+        void qtyVal.offsetWidth;
+        qtyVal.classList.add('is-bumped');
+      }
+      const bagText = document.querySelector('[data-pdp-bag-text]');
+      if (bagText && product) {
+        bagText.textContent = `Add to Bag · ${formatINR(product.price * newQty)}`;
+      }
       break;
     }
 
@@ -1352,10 +1413,15 @@ function handleActionClick(actionBtn) {
     }
 
     case 'toggle-pdp-accordion': {
-      const key = actionBtn.dataset.accKey || '';
-      state.pdpPageState.openAccordion =
-        state.pdpPageState.openAccordion === key ? '' : key;
-      refreshMainContentOnly();
+      const item = actionBtn.closest('.accordion-item');
+      if (item) {
+        const isCurrentlyOpen = item.classList.contains('is-open');
+        item.classList.toggle('is-open', !isCurrentlyOpen);
+        actionBtn.setAttribute('aria-expanded', !isCurrentlyOpen ? 'true' : 'false');
+        state.pdpPageState.openAccordion = !isCurrentlyOpen ? (actionBtn.dataset.accKey || '') : '';
+      } else {
+        refreshMainContentOnly();
+      }
       break;
     }
 

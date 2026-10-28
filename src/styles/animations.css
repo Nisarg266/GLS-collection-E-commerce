@@ -30,22 +30,7 @@
    Global Page & Component Haute-Couture Animations
    ========================================================================== */
 
-/* Page & Section Smooth Entrances */
-#main-content {
-  animation: pageFadeUp 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-@keyframes pageFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(12px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
+/* Breadcrumbs */
 .breadcrumbs {
   animation: subtleReveal 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
 }
@@ -114,38 +99,7 @@
   transform: scale(1.05) !important;
 }
 
-/* Product Detail Page (PDP) Transitions */
-.pdp-gallery-sticky {
-  animation: pdpSlideInLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.pdp-info-sticky {
-  animation: pdpSlideInRight 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
-  animation-delay: 50ms;
-}
-
-@keyframes pdpSlideInLeft {
-  from {
-    opacity: 0;
-    transform: translateX(-16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-@keyframes pdpSlideInRight {
-  from {
-    opacity: 0;
-    transform: translateX(16px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
+/* Product Detail Page (PDP) Interactive Tactile Elements */
 .pdp-main-stage {
   transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
@@ -155,12 +109,12 @@
 }
 
 .pdp-main-stage img {
-  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  transition: opacity 0.25s ease, transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
   will-change: opacity, transform;
 }
 
 .pdp-main-stage:hover img {
-  transform: scale(1.035);
+  transform: scale(1.03);
 }
 
 .pdp-thumb-btn {
@@ -177,6 +131,138 @@
   opacity: 1 !important;
   box-shadow: 0 4px 14px rgba(103, 31, 50, 0.22);
   transform: translateY(-2px) scale(1.02);
+}
+
+/* PDP Option Buttons (Sizes & Colors) Tactile Feedback */
+.option-btn {
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.18s ease,
+              border-color 0.18s ease,
+              box-shadow 0.18s ease,
+              color 0.18s ease !important;
+  position: relative;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.option-btn:hover {
+  border-color: var(--color-accent) !important;
+  transform: translateY(-1.5px);
+  box-shadow: 0 4px 10px rgba(103, 31, 50, 0.12);
+}
+
+.option-btn:active {
+  transform: scale(0.92) !important;
+}
+
+.option-btn.is-selected {
+  background-color: #671f32 !important;
+  color: #ffffff !important;
+  border-color: #671f32 !important;
+  box-shadow: 0 4px 12px rgba(103, 31, 50, 0.28) !important;
+  animation: buttonSelectPop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes buttonSelectPop {
+  0% { transform: scale(0.93); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
+
+/* Quantity Stepper Tactile Feedback */
+.qty-stepper__btn {
+  transition: transform 0.15s cubic-bezier(0.34, 1.56, 0.64, 1),
+              background-color 0.15s ease,
+              color 0.15s ease !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.qty-stepper__btn:hover {
+  background-color: rgba(103, 31, 50, 0.08) !important;
+  color: var(--color-accent) !important;
+}
+
+.qty-stepper__btn:active {
+  transform: scale(0.85) !important;
+}
+
+.qty-stepper__val {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), color 0.2s ease;
+  display: inline-block;
+}
+
+.qty-stepper__val.is-bumped {
+  animation: qtyBump 0.24s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes qtyBump {
+  0% { transform: scale(0.85); opacity: 0.6; }
+  50% { transform: scale(1.22); color: var(--color-accent); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+/* Add to Bag Button Tactile Feedback */
+[data-action="page-pdp-add-to-bag"] {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1),
+              box-shadow 0.2s ease,
+              background-color 0.2s ease !important;
+  -webkit-tap-highlight-color: transparent;
+}
+
+[data-action="page-pdp-add-to-bag"]:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 24px -4px rgba(103, 31, 50, 0.42) !important;
+}
+
+[data-action="page-pdp-add-to-bag"]:active {
+  transform: scale(0.96) !important;
+}
+
+/* Wishlist Button Heart Pop */
+[data-action="toggle-wishlist"] svg {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), fill 0.2s ease !important;
+}
+
+[data-action="toggle-wishlist"]:active svg {
+  transform: scale(1.35) !important;
+}
+
+/* Accordion Item Pure CSS Transition */
+.accordion-item {
+  transition: background-color 0.2s ease, border-color 0.2s ease;
+}
+
+.accordion-trigger {
+  transition: color 0.2s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.accordion-trigger__icon svg {
+  transition: transform 0.32s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.accordion-item.is-open .accordion-trigger__icon svg {
+  transform: rotate(180deg) !important;
+}
+
+.accordion-content {
+  display: none;
+}
+
+.accordion-item.is-open .accordion-content {
+  display: block;
+  animation: accordionContentOpen 0.26s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes accordionContentOpen {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 /* Size & Color options interactive tactile feedback */
