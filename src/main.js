@@ -1486,9 +1486,7 @@ function initSplashScreen() {
     // Ignore
   }
 
-  const counterEl = document.getElementById('gls-splash-counter');
   const hairlineEl = document.getElementById('gls-splash-hairline');
-  const enterBtn = document.getElementById('gls-splash-skip');
 
   let isOpening = false;
   let animFrameId = null;
@@ -1498,7 +1496,6 @@ function initSplashScreen() {
     isOpening = true;
     if (animFrameId) cancelAnimationFrame(animFrameId);
 
-    if (counterEl) counterEl.textContent = '100';
     if (hairlineEl) hairlineEl.style.transform = 'scaleX(1)';
 
     splash.classList.add('is-opening');
@@ -1509,41 +1506,30 @@ function initSplashScreen() {
     }, 880);
   };
 
-  // High-fashion smooth percentage counting (00 to 100 over ~1.75s)
-  const duration = 1750;
+  // High-fashion smooth hairline fill over ~1.6s
+  const duration = 1600;
   const startTime = performance.now();
 
-  const updateCounter = (now) => {
+  const updateProgress = (now) => {
     const elapsed = now - startTime;
     const progress = Math.min(elapsed / duration, 1);
-    // Ease out quad
+    // Smooth ease out quad
     const eased = 1 - Math.pow(1 - progress, 2);
-    const value = Math.floor(eased * 100);
 
-    if (counterEl) {
-      counterEl.textContent = String(value).padStart(2, '0');
-    }
     if (hairlineEl) {
       hairlineEl.style.transform = `scaleX(${eased})`;
     }
 
     if (progress < 1 && !isOpening) {
-      animFrameId = requestAnimationFrame(updateCounter);
+      animFrameId = requestAnimationFrame(updateProgress);
     } else if (!isOpening) {
-      window.setTimeout(triggerCurtainReveal, 200);
+      window.setTimeout(triggerCurtainReveal, 180);
     }
   };
 
-  animFrameId = requestAnimationFrame(updateCounter);
+  animFrameId = requestAnimationFrame(updateProgress);
 
-  // Instant skip on Enter Showroom button, backdrop click, or Escape key
-  if (enterBtn) {
-    enterBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      triggerCurtainReveal();
-    });
-  }
-
+  // Instant skip on backdrop click/tap, or Escape/Space/Enter key
   splash.addEventListener('click', triggerCurtainReveal);
 
   document.addEventListener('keydown', (e) => {
