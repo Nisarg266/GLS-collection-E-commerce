@@ -1479,46 +1479,77 @@ function initSplashScreen() {
   const splash = document.getElementById('gls-splash-screen');
   if (!splash) return;
 
-  const dismissSplash = () => {
-    if (splash.classList.contains('is-hidden')) return;
-    splash.classList.add('is-hidden');
-    try {
-      sessionStorage.setItem('gls_splash_dismissed', '1');
-    } catch {
-      // Storage access blocked or incognito fallback
-    }
-    window.setTimeout(() => {
-      splash.style.display = 'none';
-    }, 900);
-  };
-
   try {
     const isAlreadyDismissed = sessionStorage.getItem('gls_splash_dismissed');
     if (isAlreadyDismissed) {
+      splash.classList.add('is-dismissed');
       splash.style.display = 'none';
       return;
     }
   } catch {
-    // Continue with normal display
+    // Storage access blocked or incognito fallback
   }
 
-  const skipBtn = document.getElementById('gls-splash-skip');
-  if (skipBtn) {
-    skipBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      dismissSplash();
-    });
-  }
+  const counterEl = document.getElementById('gls-splash-counter');
+  const hairlineEl = document.getElementById('gls-splash-hairline');
 
-  splash.addEventListener('click', dismissSplash);
+  let isOpening = false;
+  let animFrameId = null;
 
-  // Auto-dismiss smoothly when progress bar completes (~1.7s)
-  const splashTimer = window.setTimeout(dismissSplash, 1750);
+  const triggerCurtainReveal = () => {
+    if (isOpening) return;
+    isOpening = true;
+    if (animFrameId) cancelAnimationFrame(animFrameId);
+
+    if (counterEl) counterEl.textContent = '100';
+    if (hairlineEl) hairlineEl.style.transform = 'scaleX(1)';
+
+    splash.classList.add('is-opening');
+    try {
+      sessionStorage.setItem('gls_splash_dismissed', '1');
+    } catch {
+      // Ignore
+    }
+
+    window.setTimeout(() => {
+      splash.classList.add('is-dismissed');
+      splash.style.display = 'none';
+    }, 880);
+  };
+
+  // High-fashion smooth percentage counting (00 to 100 over ~1.25s)
+  const duration = 1250;
+  const startTime = performance.now();
+
+  const updateCounter = (now) => {
+    const elapsed = now - startTime;
+    const progress = Math.min(elapsed / duration, 1);
+    // Ease out quad
+    const eased = 1 - Math.pow(1 - progress, 2);
+    const value = Math.floor(eased * 100);
+
+    if (counterEl) {
+      counterEl.textContent = String(value).padStart(2, '0');
+    }
+    if (hairlineEl) {
+      hairlineEl.style.transform = `scaleX(${eased})`;
+    }
+
+    if (progress < 1 && !isOpening) {
+      animFrameId = requestAnimationFrame(updateCounter);
+    } else if (!isOpening) {
+      window.setTimeout(triggerCurtainReveal, 160);
+    }
+  };
+
+  animFrameId = requestAnimationFrame(updateCounter);
+
+  // Instant skip on tap/click or Escape key
+  splash.addEventListener('click', triggerCurtainReveal);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !splash.classList.contains('is-hidden')) {
-      window.clearTimeout(splashTimer);
-      dismissSplash();
+    if (e.key === 'Escape' && !isOpening) {
+      triggerCurtainReveal();
     }
   });
 }

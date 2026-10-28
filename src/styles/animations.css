@@ -27,7 +27,7 @@
 }
 
 /* ==========================================================================
-   GLS Luxury Haute-Couture Splash Screen
+   GLS Haute-Couture Split-Curtain Splash Screen (Ultra-Premium)
    ========================================================================== */
 .gls-splash {
   position: fixed;
@@ -36,210 +36,215 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #120e0d;
-  color: #ffffff;
   overflow: hidden;
-  transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1),
-              opacity 0.75s cubic-bezier(0.77, 0, 0.175, 1),
-              visibility 0.85s ease;
   user-select: none;
+  cursor: pointer;
 }
 
-.gls-splash__bg {
+/* Luxury Split Curtains */
+.gls-splash__curtain {
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 50.5%;
+  background: #14110f;
+  transition: transform 0.85s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: transform;
+  z-index: 1;
+}
+
+.gls-splash__curtain--top {
+  top: 0;
+  transform-origin: top center;
+  border-bottom: 1px solid rgba(229, 194, 192, 0.15);
+}
+
+.gls-splash__curtain--bottom {
+  bottom: 0;
+  transform-origin: bottom center;
+  border-top: 1px solid rgba(229, 194, 192, 0.15);
+}
+
+.gls-splash__ambient {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 45%, rgba(103, 31, 50, 0.45) 0%, rgba(18, 14, 13, 0.95) 55%, #120e0d 100%);
+  z-index: 2;
   pointer-events: none;
-  animation: splashAura 3.5s ease-in-out infinite alternate;
+  background: radial-gradient(circle at 50% 50%, rgba(103, 31, 50, 0.28) 0%, rgba(20, 17, 15, 0.95) 60%, #14110f 100%);
+  animation: splashAmbientBreathe 4s ease-in-out infinite alternate;
 }
 
-.gls-splash__content {
+.gls-splash__inner {
   position: relative;
-  z-index: 2;
+  z-index: 3;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  padding: 2rem;
-  max-width: 90vw;
+  padding: 2.5rem 1.5rem;
+  max-width: 92vw;
+  width: 480px;
+  transition: opacity 0.5s cubic-bezier(0.77, 0, 0.175, 1), transform 0.5s cubic-bezier(0.77, 0, 0.175, 1);
+  will-change: opacity, transform;
 }
 
-.gls-splash__logo-wrap {
+.gls-splash__brand-block {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gls-splash__eyebrow {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  color: #c9a49f;
+  text-transform: uppercase;
+  margin-bottom: 1.75rem;
+  opacity: 0;
+  animation: splashFadeIn 0.7s 0.15s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gls-splash__emblem-frame {
   position: relative;
-  width: 104px;
-  height: 104px;
+  width: 96px;
+  height: 96px;
   display: grid;
   place-items: center;
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.6rem;
+  opacity: 0;
+  animation: splashEmblemReveal 0.85s 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.gls-splash__ring {
-  position: absolute;
-  inset: -8px;
-  border-radius: 50%;
-  border: 1.5px dashed rgba(247, 210, 220, 0.45);
-  animation: splashRingRotate 18s linear infinite;
-}
-
-.gls-splash__ring::after {
-  content: '';
-  position: absolute;
-  inset: -12px;
-  border-radius: 50%;
-  border: 1px solid rgba(184, 29, 94, 0.3);
-  animation: splashPulse 2.4s ease-in-out infinite;
-}
-
-.gls-splash__logo {
-  width: 86px;
-  height: 86px;
+.gls-splash__emblem {
+  width: 84px;
+  height: 84px;
   aspect-ratio: 715 / 701;
   object-fit: contain;
   border-radius: 50%;
   background: #ffffff;
-  padding: 5px;
-  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 36px rgba(184, 29, 94, 0.35);
-  animation: splashLogoEnter 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+  padding: 4px;
+  border: 1px solid rgba(229, 194, 192, 0.4);
+  box-shadow: 0 16px 40px -8px rgba(0, 0, 0, 0.65), 0 0 35px rgba(103, 31, 50, 0.35);
 }
 
-.gls-splash__brand {
+.gls-splash__brand-name {
+  font-family: var(--font-display, 'Cormorant Garamond', Georgia, serif);
+  font-size: clamp(2.3rem, 6.5vw, 3.4rem);
+  font-weight: 600;
+  letter-spacing: 0.26em;
+  margin: 0;
+  line-height: 1.05;
+  color: #f7f1eb;
+  text-transform: uppercase;
+  opacity: 0;
+  animation: splashFadeIn 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gls-splash__tagline {
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.82rem;
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: rgba(247, 241, 235, 0.72);
+  margin-top: 0.65rem;
+  margin-bottom: 2.2rem;
+  opacity: 0;
+  animation: splashFadeIn 0.8s 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.gls-splash__footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 0.4rem;
-  margin-bottom: 1.85rem;
+  width: 100%;
+  opacity: 0;
+  animation: splashFadeIn 0.8s 0.55s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
-.gls-splash__kicker {
+.gls-splash__counter-wrap {
+  display: flex;
+  align-items: baseline;
+  gap: 2px;
+  margin-bottom: 0.75rem;
+  color: #f7f1eb;
+}
+
+.gls-splash__counter {
+  font-family: var(--font-mono, monospace);
+  font-size: 1.15rem;
+  font-weight: 500;
+  letter-spacing: 0.05em;
+  min-width: 2.2ch;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.gls-splash__percent {
   font-family: var(--font-mono, monospace);
   font-size: 0.72rem;
-  font-weight: 500;
-  letter-spacing: 0.24em;
-  color: rgba(247, 210, 220, 0.85);
-  text-transform: uppercase;
-  animation: splashFadeUp 0.8s 0.25s cubic-bezier(0.16, 1, 0.3, 1) both;
+  color: #c9a49f;
 }
 
-.gls-splash__title {
-  font-family: var(--font-display, 'Cormorant Garamond', Georgia, serif);
-  font-size: clamp(2.2rem, 6vw, 3.4rem);
-  font-weight: 600;
-  letter-spacing: 0.24em;
-  margin: 0;
-  line-height: 1.1;
-  background: linear-gradient(135deg, #ffffff 0%, #f7d2dc 45%, #ffffff 90%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  animation: splashFadeUp 0.8s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.gls-splash__location {
-  font-family: var(--font-body, 'DM Sans', sans-serif);
-  font-size: 0.78rem;
-  font-weight: 500;
-  letter-spacing: 0.18em;
-  color: rgba(255, 255, 255, 0.7);
-  text-transform: uppercase;
-  animation: splashFadeUp 0.8s 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.gls-splash__progress-wrap {
-  width: 180px;
-  height: 2px;
-  background: rgba(255, 255, 255, 0.12);
-  border-radius: 999px;
-  overflow: hidden;
+.gls-splash__hairline {
+  width: 160px;
+  height: 1px;
+  background: rgba(247, 241, 235, 0.14);
   position: relative;
-  margin-bottom: 0.75rem;
-  animation: splashFadeUp 0.8s 0.55s cubic-bezier(0.16, 1, 0.3, 1) both;
+  overflow: hidden;
+  margin-bottom: 0.85rem;
 }
 
-.gls-splash__progress-bar {
+.gls-splash__hairline-fill {
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
   width: 100%;
-  background: linear-gradient(90deg, #671f32 0%, #b81d5e 50%, #f7d2dc 100%);
-  border-radius: 999px;
+  background: linear-gradient(90deg, #671f32 0%, #b81d5e 40%, #e5c2c0 100%);
   transform: scaleX(0);
   transform-origin: left;
-  animation: splashProgressFill 1.35s 0.35s cubic-bezier(0.65, 0, 0.35, 1) forwards;
+  transition: transform 0.08s linear;
 }
 
-.gls-splash__status {
+.gls-splash__caption {
   font-family: var(--font-mono, monospace);
-  font-size: 0.68rem;
-  letter-spacing: 0.14em;
-  color: rgba(255, 255, 255, 0.55);
+  font-size: 0.64rem;
+  letter-spacing: 0.22em;
+  color: rgba(247, 241, 235, 0.5);
   text-transform: uppercase;
-  animation: splashFadeUp 0.8s 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
 }
 
-.gls-splash__skip-btn {
-  margin-top: 1.5rem;
-  background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.22);
-  color: rgba(255, 255, 255, 0.65);
-  font-size: 0.72rem;
-  letter-spacing: 0.08em;
-  padding: 0.35rem 0.95rem;
-  border-radius: 999px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  animation: splashFadeUp 0.8s 0.75s cubic-bezier(0.16, 1, 0.3, 1) both;
-}
-
-.gls-splash__skip-btn:hover {
-  color: #ffffff;
-  border-color: rgba(255, 255, 255, 0.6);
-  background: rgba(255, 255, 255, 0.08);
-}
-
-/* Exit state: silk curtain lift */
-.gls-splash.is-hidden {
+/* Curtain opening exit transition */
+.gls-splash.is-opening .gls-splash__curtain--top {
   transform: translateY(-100%);
-  opacity: 0.98;
-  visibility: hidden;
-  pointer-events: none;
+}
+
+.gls-splash.is-opening .gls-splash__curtain--bottom {
+  transform: translateY(100%);
+}
+
+.gls-splash.is-opening .gls-splash__inner {
+  opacity: 0;
+  transform: scale(0.96) translateY(-8px);
+}
+
+.gls-splash.is-opening .gls-splash__ambient {
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+
+.gls-splash.is-dismissed {
+  display: none !important;
 }
 
 /* Keyframes */
-@keyframes splashRingRotate {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
-}
-
-@keyframes splashPulse {
-  0%, 100% {
-    transform: scale(0.98);
-    opacity: 0.3;
-  }
-  50% {
-    transform: scale(1.08);
-    opacity: 0.7;
-  }
-}
-
-@keyframes splashLogoEnter {
+@keyframes splashFadeIn {
   from {
     opacity: 0;
-    transform: scale(0.78);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-@keyframes splashFadeUp {
-  from {
-    opacity: 0;
-    transform: translateY(14px);
+    transform: translateY(10px);
   }
   to {
     opacity: 1;
@@ -247,45 +252,48 @@
   }
 }
 
-@keyframes splashProgressFill {
-  0% {
-    transform: scaleX(0);
+@keyframes splashEmblemReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.85) translateY(12px);
   }
-  60% {
-    transform: scaleX(0.75);
-  }
-  100% {
-    transform: scaleX(1);
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
   }
 }
 
-@keyframes splashAura {
+@keyframes splashAmbientBreathe {
   0% {
     opacity: 0.7;
-    transform: scale(0.96);
+    transform: scale(0.97);
   }
   100% {
     opacity: 1;
-    transform: scale(1.04);
+    transform: scale(1.03);
   }
 }
 
 @media (max-width: 480px) {
-  .gls-splash__logo-wrap {
-    width: 90px;
-    height: 90px;
-    margin-bottom: 1.25rem;
+  .gls-splash__emblem-frame {
+    width: 82px;
+    height: 82px;
+    margin-bottom: 1.35rem;
   }
-  .gls-splash__logo {
-    width: 74px;
-    height: 74px;
+  .gls-splash__emblem {
+    width: 72px;
+    height: 72px;
   }
-  .gls-splash__title {
-    font-size: 2rem;
-    letter-spacing: 0.18em;
+  .gls-splash__brand-name {
+    font-size: 2.1rem;
+    letter-spacing: 0.2em;
   }
-  .gls-splash__progress-wrap {
-    width: 150px;
+  .gls-splash__tagline {
+    font-size: 0.78rem;
+    margin-bottom: 1.8rem;
+  }
+  .gls-splash__hairline {
+    width: 140px;
   }
 }
 

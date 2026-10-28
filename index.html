@@ -37,37 +37,42 @@
     <link rel="stylesheet" href="/src/styles/home.css" />
   </head>
   <body data-page="home">
-    <!-- GLS Haute-Couture Luxury Splash Screen -->
-    <aside id="gls-splash-screen" class="gls-splash" role="status" aria-label="Welcome to GLS Collection">
-      <div class="gls-splash__bg" aria-hidden="true"></div>
-      <div class="gls-splash__content">
-        <div class="gls-splash__logo-wrap">
-          <div class="gls-splash__ring" aria-hidden="true"></div>
-          <img
-            src="/images/logo.png"
-            alt="GLS Collection Logo"
-            class="gls-splash__logo"
-            width="86"
-            height="86"
-          />
+    <!-- GLS Haute-Couture Split-Curtain Splash Screen (Ultra-Premium) -->
+    <div id="gls-splash-screen" class="gls-splash" role="dialog" aria-modal="true" aria-label="Welcome to GLS Collection Showroom">
+      <div class="gls-splash__curtain gls-splash__curtain--top" aria-hidden="true"></div>
+      <div class="gls-splash__curtain gls-splash__curtain--bottom" aria-hidden="true"></div>
+      <div class="gls-splash__ambient" aria-hidden="true"></div>
+
+      <div class="gls-splash__inner">
+        <div class="gls-splash__brand-block">
+          <span class="gls-splash__eyebrow">EST. AHMEDABAD • LAW GARDEN</span>
+
+          <div class="gls-splash__emblem-frame">
+            <img
+              src="/images/logo.png"
+              alt="GLS Collection Emblem"
+              class="gls-splash__emblem"
+              width="84"
+              height="84"
+            />
+          </div>
+
+          <h1 class="gls-splash__brand-name">GLS COLLECTION</h1>
+          <p class="gls-splash__tagline">Everyday Style · Beautifully Found</p>
         </div>
 
-        <div class="gls-splash__brand">
-          <span class="gls-splash__kicker">BOUTIQUE SHOWROOM</span>
-          <h1 class="gls-splash__title">GLS COLLECTION</h1>
-          <span class="gls-splash__location">LAW GARDEN • AHMEDABAD</span>
+        <div class="gls-splash__footer">
+          <div class="gls-splash__counter-wrap">
+            <span class="gls-splash__counter" id="gls-splash-counter">00</span>
+            <span class="gls-splash__percent">%</span>
+          </div>
+          <div class="gls-splash__hairline" aria-hidden="true">
+            <div class="gls-splash__hairline-fill" id="gls-splash-hairline"></div>
+          </div>
+          <span class="gls-splash__caption">OPENING SHOWROOM</span>
         </div>
-
-        <div class="gls-splash__progress-wrap" aria-hidden="true">
-          <div class="gls-splash__progress-bar"></div>
-        </div>
-        <span class="gls-splash__status">Curating Everyday Style...</span>
-
-        <button type="button" class="gls-splash__skip-btn" id="gls-splash-skip" aria-label="Enter the boutique">
-          Enter Store &rarr;
-        </button>
       </div>
-    </aside>
+    </div>
 
     <a href="#main-content" class="skip-link">Skip to main content</a>
     <div id="app"></div>
