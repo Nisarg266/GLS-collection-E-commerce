@@ -62,17 +62,17 @@ function detectCurrentPage() {
   const bodyPage = document.body?.dataset?.page;
   if (bodyPage) return bodyPage;
 
-  const path = window.location.pathname.toLowerCase();
-  if (path.endsWith('/collections.html')) return 'collections';
-  if (path.endsWith('/collection.html')) return 'collection';
-  if (path.endsWith('/product.html')) return 'product';
-  if (path.endsWith('/about.html')) return 'about';
-  if (path.endsWith('/contact.html')) return 'contact';
-  if (path.endsWith('/search.html')) return 'search';
-  if (path.endsWith('/cart.html')) return 'cart';
-  if (path.endsWith('/wishlist.html')) return 'wishlist';
-  if (path.endsWith('/faq.html')) return 'faq';
-  if (path.endsWith('/policies.html')) return 'policies';
+  const path = window.location.pathname.toLowerCase().replace(/\/$/, '');
+  if (path.endsWith('/collections') || path.endsWith('/collections.html')) return 'collections';
+  if (path.endsWith('/collection') || path.endsWith('/collection.html')) return 'collection';
+  if (path.endsWith('/product') || path.endsWith('/product.html')) return 'product';
+  if (path.endsWith('/about') || path.endsWith('/about.html')) return 'about';
+  if (path.endsWith('/contact') || path.endsWith('/contact.html')) return 'contact';
+  if (path.endsWith('/search') || path.endsWith('/search.html')) return 'search';
+  if (path.endsWith('/cart') || path.endsWith('/cart.html')) return 'cart';
+  if (path.endsWith('/wishlist') || path.endsWith('/wishlist.html')) return 'wishlist';
+  if (path.endsWith('/faq') || path.endsWith('/faq.html')) return 'faq';
+  if (path.endsWith('/policies') || path.endsWith('/policies.html')) return 'policies';
   return 'home';
 }
 

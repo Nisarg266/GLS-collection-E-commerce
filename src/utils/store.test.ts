@@ -90,24 +90,24 @@ test('toggleWishlistList adds and removes valid product IDs', () => {
 test('filterAndSortProducts supports category slugs, price ranges, size filters, search, and sort', () => {
   const kidswear = filterAndSortProducts(PRODUCTS, { filter: 'kidswear' });
   assert.ok(kidswear.length >= 3);
-  assert.ok(kidswear.every((p) => p.category === 'Kidswear'));
+  assert.ok(kidswear.every((p: any) => p.category === 'Kidswear'));
 
   const tops = filterAndSortProducts(PRODUCTS, { filter: 'tops' });
   assert.ok(tops.length >= 3);
-  assert.ok(tops.every((p) => p.category === 'Tops & Tees'));
+  assert.ok(tops.every((p: any) => p.category === 'Tops & Tees'));
 
   const under300 = filterAndSortProducts(PRODUCTS, { priceRange: 'under-300' });
   assert.ok(under300.length >= 3);
-  assert.ok(under300.every((p) => p.price < 300));
+  assert.ok(under300.every((p: any) => p.price < 300));
 
   const sizeM = filterAndSortProducts(PRODUCTS, { size: 'M' });
   assert.ok(sizeM.length >= 5);
-  assert.ok(sizeM.every((p) => p.sizes.includes('M')));
+  assert.ok(sizeM.every((p: any) => p.sizes.includes('M')));
 
   const searched = filterAndSortProducts(PRODUCTS, { query: 'cardigan' });
   assert.ok(searched.length >= 2);
 
-  const sortedAsc = filterAndSortProducts(PRODUCTS, { sortBy: 'price-asc' });
+  const sortedAsc: any[] = filterAndSortProducts(PRODUCTS, { sortBy: 'price-asc' });
   for (let i = 1; i < sortedAsc.length; i++) {
     assert.ok(sortedAsc[i].price >= sortedAsc[i - 1].price);
   }
