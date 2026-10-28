@@ -53,12 +53,41 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
   const indicatorsHtml = slides.map((slide, index) => `
     <button type="button" class="home-hero-indicator ${index === 0 ? 'is-active' : ''}" data-hero-indicator="${index}" aria-label="Show slide ${index + 1}" aria-current="${index === 0 ? 'true' : 'false'}"><span></span></button>
   `).join('');
-  const instagramHtml = INSTAGRAM_SHOWCASE.slice(0, 4).map((item) => `
-    <button type="button" class="home-instagram-card" data-action="open-reel" data-reel-id="${item.id}" aria-label="Preview ${item.title}">
-      <img src="${item.thumbnail}" alt="${item.title}" loading="lazy" />
-      <span class="home-instagram-card__icon" aria-hidden="true">${renderIcon('instagram', 17)}</span>
+  const renderReelCard = (item, keySuffix = '') => `
+    <button
+      type="button"
+      class="home-reel-card"
+      data-action="open-reel"
+      data-reel-id="${item.id}"
+      data-key-suffix="${keySuffix}"
+      aria-label="Watch reel: ${item.title}"
+    >
+      <div class="home-reel-card__media">
+        <img src="${item.thumbnail}" alt="${item.title}" loading="lazy" />
+        <span class="home-reel-card__scrim" aria-hidden="true"></span>
+      </div>
+      <div class="home-reel-card__top">
+        <span class="home-reel-card__badge">
+          ${renderIcon('instagram', 13)}
+          <span>Reel</span>
+        </span>
+        <span class="home-reel-card__play" aria-hidden="true">
+          ${renderIcon('play', 12)}
+        </span>
+      </div>
+      <div class="home-reel-card__bottom">
+        <h3 class="home-reel-card__title">${item.title}</h3>
+        <p class="home-reel-card__caption">${item.caption}</p>
+        <span class="home-reel-card__tap">
+          ${renderIcon('play', 11)} Watch Reel
+        </span>
+      </div>
     </button>
-  `).join('');
+  `;
+
+  const singleReelsSet = INSTAGRAM_SHOWCASE.map((item) => renderReelCard(item, 'a')).join('');
+  const duplicateReelsSet = INSTAGRAM_SHOWCASE.map((item) => renderReelCard(item, 'b')).join('');
+  const infiniteReelsHtml = `${singleReelsSet}${duplicateReelsSet}`;
 
   return `
     <section class="home-hero" aria-label="GLS Collection campaigns">
@@ -101,8 +130,22 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
     </section>
 
     <section class="section home-instagram" id="instagram-section" aria-labelledby="instagram-heading">
-      <div class="container"><div class="section-header--split gs-reveal"><div><span class="section-kicker">A GLIMPSE FROM THE SHOWROOM</span><h2 class="section-title" id="instagram-heading">Follow along on Instagram</h2></div><a class="home-text-link" href="${instagramUrl}" target="_blank" rel="noopener noreferrer">@gls_collection_lawgarden ${renderIcon('external', 14)}</a></div>
-        <div class="home-instagram-grid">${instagramHtml}</div>
+      <div class="container">
+        <div class="section-header--split gs-reveal">
+          <div>
+            <span class="section-kicker">A GLIMPSE FROM THE SHOWROOM</span>
+            <h2 class="section-title" id="instagram-heading">Trending on Reels</h2>
+            <p class="section-subtitle">Real showroom try-ons, seasonal collections & everyday fashion inspiration.</p>
+          </div>
+          <a class="home-text-link" href="${instagramUrl}" target="_blank" rel="noopener noreferrer">@gls_collection_lawgarden ${renderIcon('external', 14)}</a>
+        </div>
+      </div>
+      <div class="home-reels-slider-wrap" aria-label="Showroom Instagram reels carousel">
+        <div class="home-reels-slider-track">
+          ${infiniteReelsHtml}
+        </div>
+      </div>
+      <div class="container" style="text-align: center; margin-top: 1.25rem;">
         <a class="btn btn--outline home-instagram__cta" href="${instagramUrl}" target="_blank" rel="noopener noreferrer">${renderIcon('instagram', 16)} Follow on Instagram ${renderIcon('external', 14)}</a>
       </div>
     </section>
