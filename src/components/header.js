@@ -62,8 +62,8 @@ export function renderHeader({
               src="${BRAND_CONFIG.assets.logo}"
               alt="${BRAND_CONFIG.name} logo"
               class="brand-logo-img"
-              width="68"
-              height="68"
+              width="66"
+              height="66"
               referrerpolicy="no-referrer"
             />
             <span class="brand-wordmark">${BRAND_CONFIG.name}</span>

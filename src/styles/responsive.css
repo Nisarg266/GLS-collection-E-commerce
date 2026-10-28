@@ -152,13 +152,13 @@
   }
 
   .brand-logo-img {
-    width: 58px;
-    height: 58px;
+    width: 50px;
+    height: 50px;
   }
 
   .brand-wordmark {
-    font-size: 1.4rem;
-    letter-spacing: 0.04em;
+    font-size: 1.35rem;
+    letter-spacing: 0.05em;
   }
 
   .icon-btn {
@@ -264,8 +264,8 @@
   }
 
   .brand-logo-img {
-    width: 68px;
-    height: 68px;
+    width: 66px;
+    height: 66px;
     filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.08));
   }
 
