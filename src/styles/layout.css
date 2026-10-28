@@ -181,17 +181,31 @@
 
 /* Footer Layout */
 .site-footer {
-  background-color: var(--color-inverse-bg);
+  position: relative;
+  overflow: hidden;
+  background: #171311;
   color: var(--color-inverse-text);
-  padding-top: var(--space-16);
-  padding-bottom: calc(var(--space-12) + var(--bottom-nav-height));
+  padding-top: clamp(3.5rem, 7vw, 6.5rem);
+  padding-bottom: calc(2.5rem + var(--bottom-nav-height));
   border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.site-footer::before {
+  position: absolute;
+  top: -240px;
+  left: -180px;
+  width: 520px;
+  height: 520px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(103, 31, 50, 0.28), transparent 68%);
+  content: '';
+  pointer-events: none;
 }
 
 .footer-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-8);
-  padding-bottom: var(--space-10);
+  gap: 2.2rem;
+  padding-block: clamp(2.8rem, 5vw, 4.5rem);
   border-bottom: 1px solid rgba(255, 255, 255, 0.12);
 }

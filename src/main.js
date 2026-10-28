@@ -787,6 +787,20 @@ function initGsapAnimations() {
         });
       });
 
+      const footerItems = gsap.utils.toArray('.footer-newsletter, .footer-grid > *');
+      const footer = document.querySelector('.site-footer');
+      if (footerItems.length && footer) {
+        gsap.fromTo(footerItems, { opacity: 0, y: 18 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.58,
+          stagger: 0.07,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+          scrollTrigger: { trigger: footer, start: 'top 90%', once: true },
+        });
+      }
+
       if (state.page !== 'home') return;
 
       const revealGroup = (selector, triggerSelector, stagger = 0.06) => {
@@ -806,6 +820,8 @@ function initGsapAnimations() {
 
       revealGroup('.home-category-card', '.home-category-grid', 0.055);
       revealGroup('.home-product-reveal', '.home-arrivals .product-grid', 0.075);
+      revealGroup('.home-values__item', '.home-values', 0.07);
+      revealGroup('.home-lookbook-card', '.home-lookbook__grid', 0.1);
       const editorialImage = document.querySelector('.home-editorial__image');
       const editorialLayout = document.querySelector('.home-editorial__layout');
       if (editorialImage && editorialLayout) {
@@ -826,14 +842,40 @@ function initGsapAnimations() {
       }
       revealGroup('.home-editorial__copy', '.home-editorial__layout', 0);
       revealGroup('.home-knitwear__image, .home-knitwear__copy', '.home-knitwear', 0.12);
-      revealGroup('.home-instagram-card', '.home-instagram-grid', 0.065);
-      revealGroup('.home-store__inner', '.home-store', 0);
+      revealGroup('.home-store-story__media, .home-store-story__content', '.home-store-story', 0.12);
+
+      const lookbookImages = gsap.utils.toArray('.home-lookbook-card img');
+      if (lookbookImages.length) {
+        gsap.fromTo(lookbookImages, { scale: 1.06 }, {
+          scale: 1,
+          duration: 1.05,
+          stagger: 0.08,
+          ease: 'power2.out',
+          clearProps: 'transform',
+          scrollTrigger: { trigger: '.home-lookbook__grid', start: 'top 86%', once: true },
+        });
+      }
+
+      const storeImage = document.querySelector('.home-store-story__media img');
+      if (storeImage && window.matchMedia('(min-width: 768px)').matches) {
+        gsap.fromTo(storeImage, { scale: 1.07, yPercent: -2 }, {
+          scale: 1.07,
+          yPercent: 2,
+          ease: 'none',
+          scrollTrigger: {
+            trigger: '.home-store-story',
+            start: 'top bottom',
+            end: 'bottom top',
+            scrub: 0.8,
+          },
+        });
+      }
     });
   } catch {
     pageGsapContext?.revert();
     pageGsapContext = null;
     try {
-      gsap.set(document.querySelectorAll('.gs-reveal, .home-category-card, .home-product-reveal, .home-editorial__image, .home-editorial__copy, .home-knitwear__image, .home-knitwear__copy, .home-instagram-card, .home-store__inner'), { clearProps: 'all' });
+      gsap.set(document.querySelectorAll('.gs-reveal, .footer-newsletter, .footer-grid > *, .home-values__item, .home-category-card, .home-product-reveal, .home-lookbook-card, .home-lookbook-card img, .home-editorial__image, .home-editorial__copy, .home-knitwear__image, .home-knitwear__copy, .home-store-story__media, .home-store-story__content, .home-store-story__media img'), { clearProps: 'all' });
     } catch {
       // CSS keeps all reveal targets visible if GSAP cannot initialize.
     }

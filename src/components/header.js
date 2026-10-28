@@ -178,9 +178,21 @@ export function renderFooter() {
   return `
     <footer class="site-footer">
       <div class="container">
-        <div class="footer-grid">
+        <div class="footer-newsletter">
           <div>
-            <a href="/index.html" class="brand-logo-link" style="gap: 0.75rem;">
+            <span class="footer-newsletter__kicker">EVERY DAY, SOMETHING NEW</span>
+            <h2>The next favourite is already waiting.</h2>
+            <p>Explore fresh arrivals online or see the newest showroom edits on Instagram.</p>
+          </div>
+          <div class="footer-newsletter__actions">
+            <a class="btn footer-btn--light" href="/collection.html?category=new-arrivals">Shop new arrivals ${renderIcon('arrowRight', 16)}</a>
+            <a class="footer-newsletter__link" href="${BRAND_CONFIG.instagramUrl}" target="_blank" rel="noopener noreferrer">Follow on Instagram ${renderIcon('external', 14)}</a>
+          </div>
+        </div>
+
+        <div class="footer-grid">
+          <div class="footer-brand">
+            <a href="/index.html" class="brand-logo-link footer-brand__logo">
               <img
                 src="${BRAND_CONFIG.assets.logo}"
                 alt="${BRAND_CONFIG.name} logo"
@@ -189,32 +201,36 @@ export function renderFooter() {
                 height="58"
                 referrerpolicy="no-referrer"
               />
-              <span class="brand-wordmark" style="color: #ffffff; font-size: 1.35rem; letter-spacing: 0.05em;">${BRAND_CONFIG.name}</span>
+              <span class="brand-wordmark">${BRAND_CONFIG.name}</span>
             </a>
             <p class="footer-brand-desc">
               ${BRAND_CONFIG.tagline} · ${BRAND_CONFIG.subTagline}. Fashion clothing retail destination in ${BRAND_CONFIG.locationContext}.
             </p>
+            <div class="footer-social" aria-label="GLS Collection links">
+              <a href="${BRAND_CONFIG.instagramUrl}" target="_blank" rel="noopener noreferrer" aria-label="GLS Collection on Instagram">${renderIcon('instagram', 18)}<span>Instagram</span></a>
+              <a href="${BRAND_CONFIG.googleMapsUrl}" target="_blank" rel="noopener noreferrer" aria-label="Find GLS Collection on Google Maps">${renderIcon('mapPin', 18)}<span>Google Maps</span></a>
+            </div>
           </div>
 
           <div>
-            <h3 class="footer-heading">SHOP COLLECTIONS</h3>
+            <h3 class="footer-heading">SHOP</h3>
             <ul class="footer-links">
-              <li><a href="/collections.html" class="footer-link">Explore All Collections</a></li>
               <li><a href="/collection.html?category=new-arrivals" class="footer-link">New Arrivals</a></li>
               <li><a href="/collection.html?category=kidswear" class="footer-link">Kidswear (Ages 4–14)</a></li>
               <li><a href="/collection.html?category=knitwear" class="footer-link">Cardigans &amp; Knitwear</a></li>
               <li><a href="/collection.html?category=tops" class="footer-link">Tops, Shirts &amp; Kurtis</a></li>
               <li><a href="/collection.html?category=pants" class="footer-link">Trousers, Linen &amp; Joggers</a></li>
-              <li><a href="/collection.html?category=dresses" class="footer-link">Midi Dresses &amp; Gowns</a></li>
+              <li><a href="/collection.html?category=dresses" class="footer-link">Dresses &amp; Gowns</a></li>
             </ul>
           </div>
 
           <div>
-            <h3 class="footer-heading">CUSTOMER CARE &amp; INFO</h3>
+            <h3 class="footer-heading">EXPLORE</h3>
             <ul class="footer-links">
+              <li><a href="/collections.html" class="footer-link">All Collections</a></li>
               <li><a href="/about.html" class="footer-link">About GLS COLLECTION</a></li>
-              <li><a href="/contact.html" class="footer-link">Contact &amp; Store Location</a></li>
-              <li><a href="/faq.html" class="footer-link">Frequently Asked Questions</a></li>
+              <li><a href="/contact.html" class="footer-link">Contact &amp; Location</a></li>
+              <li><a href="/faq.html" class="footer-link">FAQs</a></li>
               <li><a href="/policies.html" class="footer-link">Store Policies (Demo)</a></li>
               <li><a href="/cart.html" class="footer-link">Shopping Bag</a></li>
               <li><a href="/wishlist.html" class="footer-link">Saved Wishlist</a></li>
@@ -222,27 +238,22 @@ export function renderFooter() {
           </div>
 
           <div>
-            <h3 class="footer-heading">VISIT OUR SHOWROOM</h3>
-            <ul class="footer-links">
-              <li class="footer-link">${BRAND_CONFIG.locationContext}</li>
-              <li class="footer-link">${BRAND_CONFIG.storeHours}</li>
-              <li>
-                <a href="${BRAND_CONFIG.googleMapsUrl}" target="_blank" rel="noopener noreferrer" class="footer-link">
-                  Open in Google Maps ↗
-                </a>
-              </li>
-              <li>
-                <a href="${BRAND_CONFIG.instagramUrl}" target="_blank" rel="noopener noreferrer" class="footer-link">
-                  Instagram: ${BRAND_CONFIG.instagramHandle} ↗
-                </a>
-              </li>
-            </ul>
+            <h3 class="footer-heading">VISIT</h3>
+            <div class="footer-visit">
+              <span>${renderIcon('mapPin', 18)}</span>
+              <p>${BRAND_CONFIG.locationContext}</p>
+            </div>
+            <div class="footer-visit">
+              <span>${renderIcon('clock', 18)}</span>
+              <p>${BRAND_CONFIG.storeHours}</p>
+            </div>
+            <a href="${BRAND_CONFIG.googleMapsUrl}" target="_blank" rel="noopener noreferrer" class="footer-direction-link">Get directions ${renderIcon('arrowRight', 15)}</a>
           </div>
         </div>
 
         <div class="footer-bottom">
-          <span>© ${new Date().getFullYear()} ${BRAND_CONFIG.name}. Multi-Page E-Commerce Presentation Demo.</span>
-          <span>All sample prices (₹), sizes, and policies are illustrative placeholders for client review.</span>
+          <span>© ${new Date().getFullYear()} ${BRAND_CONFIG.name}. All rights reserved.</span>
+          <span>Every Day, Something New · Law Garden, Ahmedabad</span>
         </div>
       </div>
     </footer>

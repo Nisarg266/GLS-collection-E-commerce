@@ -103,6 +103,27 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
       <span class="home-hero__counter" aria-live="polite"><span data-hero-current>01</span><span aria-hidden="true"> / </span>03</span>
     </section>
 
+    <section class="home-values" aria-label="Why shop GLS Collection">
+      <div class="container home-values__grid">
+        <div class="home-values__item">
+          <span class="home-values__icon" aria-hidden="true">${renderIcon('bag', 18)}</span>
+          <div><strong>Fresh fashion edits</strong><span>New arrivals across women and kids</span></div>
+        </div>
+        <div class="home-values__item">
+          <span class="home-values__icon" aria-hidden="true">${renderIcon('heart', 18)}</span>
+          <div><strong>Made for every day</strong><span>Comfortable layers and easy silhouettes</span></div>
+        </div>
+        <div class="home-values__item">
+          <span class="home-values__icon" aria-hidden="true">${renderIcon('mapPin', 18)}</span>
+          <div><strong>Law Garden showroom</strong><span>Discover the collection in Ahmedabad</span></div>
+        </div>
+        <div class="home-values__item">
+          <span class="home-values__icon" aria-hidden="true">${renderIcon('instagram', 18)}</span>
+          <div><strong>See what is trending</strong><span>Real try-ons and showroom reels</span></div>
+        </div>
+      </div>
+    </section>
+
     <section class="section home-categories" id="categories-section" aria-labelledby="categories-heading">
       <div class="container">
         <div class="section-header--split gs-reveal"><div><span class="section-kicker">A WORLD OF EVERYDAY STYLE</span><h2 class="section-title" id="categories-heading">Find your kind of lovely</h2></div><a href="/collections.html" class="home-text-link">View all collections ${renderIcon('arrowRight', 15)}</a></div>
@@ -114,6 +135,32 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
       <div class="container">
         <div class="section-header--split gs-reveal"><div><span class="section-kicker">JUST IN AT GLS</span><h2 class="section-title" id="new-arrivals-heading">New arrivals</h2><p class="section-subtitle">A few fresh favourites, ready to meet you.</p></div><a href="/collection.html?category=new-arrivals" class="btn btn--outline btn--sm">View all new arrivals ${renderIcon('arrowRight', 15)}</a></div>
         <div class="product-grid">${newArrivals.map((product) => renderProductCard(product, { wishlistIds: wishlist, sectionPrefix: 'new-arrivals', motionClass: 'home-product-reveal' })).join('')}</div>
+      </div>
+    </section>
+
+    <section class="section home-lookbook" aria-labelledby="lookbook-heading">
+      <div class="container">
+        <div class="home-lookbook__heading gs-reveal">
+          <div><span class="section-kicker">CURATED FOR THE MOMENT</span><h2 class="section-title" id="lookbook-heading">Shop the mood</h2></div>
+          <p>Three edits, one easy wardrobe. Explore expressive layers, playful looks and occasion-ready silhouettes.</p>
+        </div>
+        <div class="home-lookbook__grid">
+          <a class="home-lookbook-card home-lookbook-card--feature" href="/collection.html?category=women">
+            <img src="/images/campaign-knitwear.jpg" alt="Curated women's knitwear and layering edit" loading="lazy" />
+            <span class="home-lookbook-card__shade" aria-hidden="true"></span>
+            <span class="home-lookbook-card__content"><small>THE WOMEN'S EDIT</small><strong>Modern layers.<br />Quiet confidence.</strong><span>Explore women ${renderIcon('arrowRight', 16)}</span></span>
+          </a>
+          <a class="home-lookbook-card" href="/collection.html?category=kidswear">
+            <img src="/images/campaign-kidswear.jpg" alt="Playful kidswear collection" loading="lazy" />
+            <span class="home-lookbook-card__shade" aria-hidden="true"></span>
+            <span class="home-lookbook-card__content"><small>PLAYFUL DAYS</small><strong>Little looks, big joy.</strong><span>Shop kidswear ${renderIcon('arrowRight', 16)}</span></span>
+          </a>
+          <a class="home-lookbook-card" href="/collection.html?category=dresses">
+            <img src="/images/categories/dresses.jpg" alt="Dresses and occasion styles" loading="lazy" />
+            <span class="home-lookbook-card__shade" aria-hidden="true"></span>
+            <span class="home-lookbook-card__content"><small>DRESS THE MOMENT</small><strong>Soft drama, beautifully worn.</strong><span>Explore dresses ${renderIcon('arrowRight', 16)}</span></span>
+          </a>
+        </div>
       </div>
     </section>
 
@@ -150,7 +197,27 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
       </div>
     </section>
 
-    <section class="home-store" aria-labelledby="home-store-heading"><div class="container home-store__inner"><div><span class="section-kicker">COME SAY HELLO</span><h2 class="section-title" id="home-store-heading">Discover GLS COLLECTION</h2><p>${BRAND_CONFIG.locationContext}</p></div><a class="btn btn--accent" href="${BRAND_CONFIG.googleMapsUrl}" target="_blank" rel="noopener noreferrer">Find us on Google Maps ${renderIcon('external', 14)}</a></div></section>
+    <section class="section home-store-story" aria-labelledby="home-store-heading">
+      <div class="container home-store-story__layout">
+        <div class="home-store-story__media">
+          <img src="${BRAND_CONFIG.assets.storefrontPhoto}" alt="GLS Collection showroom at Law Garden, Ahmedabad" loading="lazy" />
+          <span class="home-store-story__label">LAW GARDEN · AHMEDABAD</span>
+        </div>
+        <div class="home-store-story__content">
+          <span class="section-kicker">COME SAY HELLO</span>
+          <h2 class="section-title" id="home-store-heading">The collection feels even better in person.</h2>
+          <p>Step into our Law Garden showroom and discover the latest women’s wear, kidswear, knitwear and everyday fashion edits.</p>
+          <ul class="home-store-story__details">
+            <li><span aria-hidden="true">${renderIcon('mapPin', 18)}</span><div><strong>Visit the showroom</strong><span>${BRAND_CONFIG.locationContext}</span></div></li>
+            <li><span aria-hidden="true">${renderIcon('clock', 18)}</span><div><strong>Store hours</strong><span>${BRAND_CONFIG.storeHours}</span></div></li>
+          </ul>
+          <div class="home-store-story__actions">
+            <a class="btn btn--accent" href="${BRAND_CONFIG.googleMapsUrl}" target="_blank" rel="noopener noreferrer">Get directions ${renderIcon('external', 14)}</a>
+            <a class="home-text-link" href="${instagramUrl}" target="_blank" rel="noopener noreferrer">Follow the showroom ${renderIcon('instagram', 15)}</a>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <section class="section home-newsletter" aria-labelledby="newsletter-heading"><div class="container"><div class="newsletter-box gs-reveal">
       <span class="section-kicker">A NOTE WHEN SOMETHING NEW ARRIVES</span><h2 class="section-title" id="newsletter-heading">Stay in the loop</h2><p class="section-subtitle">Occasional notes about new styles and showroom updates.</p>
