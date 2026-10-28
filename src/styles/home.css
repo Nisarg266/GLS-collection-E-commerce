@@ -552,9 +552,32 @@
 .home-newsletter { padding-block: clamp(3.2rem, 6vw, 5rem); background: #f8f5f0; }
 .home-newsletter .newsletter-box { max-width: 720px; border: 0; background: transparent; }
 .home-newsletter .newsletter-box .section-title { font-size: clamp(2.2rem, 4vw, 3.4rem); }
-.home-newsletter .newsletter-form { max-width: 530px; }
-.home-newsletter .newsletter-form .form-input { flex: 1 1 240px; min-height: 48px; background: #fff; }
-.home-newsletter .newsletter-form .btn { min-height: 48px; }
+.home-newsletter .newsletter-form {
+  display: flex;
+  gap: 0.6rem;
+  max-width: 520px;
+  width: 100%;
+  margin-inline: auto;
+}
+.home-newsletter .newsletter-form .form-input {
+  flex: 1 1 auto;
+  width: auto;
+  height: 48px;
+  min-height: 48px;
+  max-height: 48px;
+  padding: 0.75rem 1rem;
+  font-size: var(--text-sm);
+  background: #fff;
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-xs);
+  box-sizing: border-box;
+}
+.home-newsletter .newsletter-form .btn {
+  flex-shrink: 0;
+  height: 48px;
+  min-height: 48px;
+  padding-inline: 1.5rem;
+}
 .home-newsletter__note { color: var(--color-text-muted); font-size: 0.78rem; }
 
 .home-arrivals .product-card__wishlist-btn:active { transform: scale(0.94); }
@@ -628,8 +651,26 @@
   .home-store__inner .btn { width: 100%; justify-content: center; }
   .home-newsletter { padding-block: 2.8rem; }
   .home-newsletter .newsletter-box { padding: 1rem 0.2rem; }
-  .home-newsletter .newsletter-form { flex-direction: column; }
-  .home-newsletter .newsletter-form .btn { width: 100%; justify-content: center; }
+  .home-newsletter .newsletter-form {
+    flex-direction: column;
+    gap: 0.65rem;
+    width: 100%;
+    max-width: 100%;
+  }
+  .home-newsletter .newsletter-form .form-input {
+    flex: none;
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    max-height: 48px;
+    box-sizing: border-box;
+  }
+  .home-newsletter .newsletter-form .btn {
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 380px) {
