@@ -488,7 +488,7 @@ function refreshMainContentOnly() {
   }
   renderOverlaysAndBadges();
   initHomeCarousel();
-  if (state.page === 'home') initGsapAnimations();
+  initGsapAnimations();
 }
 
 let homeCarouselCleanup = null;
@@ -801,11 +801,9 @@ function initGsapAnimations() {
         });
       }
 
-      if (state.page !== 'home') return;
-
       const revealGroup = (selector, triggerSelector, stagger = 0.06) => {
         const elements = gsap.utils.toArray(selector);
-        const trigger = document.querySelector(triggerSelector);
+        const trigger = triggerSelector ? document.querySelector(triggerSelector) : (elements[0] || null);
         if (!elements.length || !trigger) return;
         gsap.fromTo(elements, { opacity: 0, y: 18 }, {
           opacity: 1,
@@ -818,57 +816,183 @@ function initGsapAnimations() {
         });
       };
 
-      revealGroup('.home-category-card', '.home-category-grid', 0.055);
-      revealGroup('.home-product-reveal', '.home-arrivals .product-grid', 0.075);
-      revealGroup('.home-values__item', '.home-values', 0.07);
-      revealGroup('.home-lookbook-card', '.home-lookbook__grid', 0.1);
-      const editorialImage = document.querySelector('.home-editorial__image');
-      const editorialLayout = document.querySelector('.home-editorial__layout');
-      if (editorialImage && editorialLayout) {
-        const simpleReveal = window.matchMedia('(max-width: 767.98px)').matches;
-        gsap.fromTo(editorialImage, {
-          opacity: 0,
-          y: simpleReveal ? 14 : 0,
-          clipPath: simpleReveal ? 'inset(0 0 0 0)' : 'inset(0 0 0 12%)',
-        }, {
-          opacity: 1,
-          y: 0,
-          clipPath: 'inset(0 0 0 0)',
-          duration: 0.58,
-          ease: 'power2.out',
-          clearProps: 'opacity,transform,clipPath',
-          scrollTrigger: { trigger: editorialLayout, start: 'top 88%', once: true },
-        });
-      }
-      revealGroup('.home-editorial__copy', '.home-editorial__layout', 0);
-      revealGroup('.home-knitwear__image, .home-knitwear__copy', '.home-knitwear', 0.12);
-      revealGroup('.home-store-story__media, .home-store-story__content', '.home-store-story', 0.12);
+      // 1. Home Page Animations
+      if (state.page === 'home') {
+        revealGroup('.home-category-card', '.home-category-grid', 0.055);
+        revealGroup('.home-product-reveal', '.home-arrivals .product-grid', 0.075);
+        revealGroup('.home-values__item', '.home-values', 0.07);
+        revealGroup('.home-lookbook-card', '.home-lookbook__grid', 0.1);
+        const editorialImage = document.querySelector('.home-editorial__image');
+        const editorialLayout = document.querySelector('.home-editorial__layout');
+        if (editorialImage && editorialLayout) {
+          const simpleReveal = window.matchMedia('(max-width: 767.98px)').matches;
+          gsap.fromTo(editorialImage, {
+            opacity: 0,
+            y: simpleReveal ? 14 : 0,
+            clipPath: simpleReveal ? 'inset(0 0 0 0)' : 'inset(0 0 0 12%)',
+          }, {
+            opacity: 1,
+            y: 0,
+            clipPath: 'inset(0 0 0 0)',
+            duration: 0.58,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform,clipPath',
+            scrollTrigger: { trigger: editorialLayout, start: 'top 88%', once: true },
+          });
+        }
+        revealGroup('.home-editorial__copy', '.home-editorial__layout', 0);
+        revealGroup('.home-knitwear__image, .home-knitwear__copy', '.home-knitwear', 0.12);
+        revealGroup('.home-store-story__media, .home-store-story__content', '.home-store-story', 0.12);
 
-      const lookbookImages = gsap.utils.toArray('.home-lookbook-card img');
-      if (lookbookImages.length) {
-        gsap.fromTo(lookbookImages, { scale: 1.06 }, {
-          scale: 1,
-          duration: 1.05,
-          stagger: 0.08,
-          ease: 'power2.out',
-          clearProps: 'transform',
-          scrollTrigger: { trigger: '.home-lookbook__grid', start: 'top 86%', once: true },
-        });
+        const lookbookImages = gsap.utils.toArray('.home-lookbook-card img');
+        if (lookbookImages.length) {
+          gsap.fromTo(lookbookImages, { scale: 1.06 }, {
+            scale: 1,
+            duration: 1.05,
+            stagger: 0.08,
+            ease: 'power2.out',
+            clearProps: 'transform',
+            scrollTrigger: { trigger: '.home-lookbook__grid', start: 'top 86%', once: true },
+          });
+        }
+
+        const storeImage = document.querySelector('.home-store-story__media img');
+        if (storeImage && window.matchMedia('(min-width: 768px)').matches) {
+          gsap.fromTo(storeImage, { scale: 1.07, yPercent: -2 }, {
+            scale: 1.07,
+            yPercent: 2,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: '.home-store-story',
+              start: 'top bottom',
+              end: 'bottom top',
+              scrub: 0.8,
+            },
+          });
+        }
       }
 
-      const storeImage = document.querySelector('.home-store-story__media img');
-      if (storeImage && window.matchMedia('(min-width: 768px)').matches) {
-        gsap.fromTo(storeImage, { scale: 1.07, yPercent: -2 }, {
-          scale: 1.07,
-          yPercent: 2,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: '.home-store-story',
-            start: 'top bottom',
-            end: 'bottom top',
-            scrub: 0.8,
-          },
-        });
+      // 2. Collection & Collections Pages Animations
+      if (state.page === 'collection' || state.page === 'collections') {
+        const colHeader = document.querySelector('.section-header');
+        if (colHeader) {
+          gsap.fromTo(colHeader.children, { opacity: 0, y: 16 }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.08,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+          });
+        }
+
+        const colProducts = gsap.utils.toArray('#collection-product-grid .product-card, .collection-layout .product-card');
+        if (colProducts.length) {
+          gsap.fromTo(colProducts, { opacity: 0, y: 22 }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.52,
+            stagger: 0.05,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+          });
+        }
+
+        const catCards = gsap.utils.toArray('.category-card, .collections-grid .card');
+        if (catCards.length) {
+          gsap.fromTo(catCards, { opacity: 0, y: 20, scale: 0.98 }, {
+            opacity: 1,
+            y: 0,
+            scale: 1,
+            duration: 0.52,
+            stagger: 0.07,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+          });
+        }
+      }
+
+      // 3. Product Detail Page (PDP) Animations
+      if (state.page === 'product') {
+        const pdpGallery = document.querySelector('.pdp-gallery-sticky');
+        const pdpInfo = document.querySelector('.pdp-info-sticky');
+        if (pdpGallery) {
+          gsap.fromTo(pdpGallery, { opacity: 0, x: -16 }, {
+            opacity: 1,
+            x: 0,
+            duration: 0.56,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+          });
+        }
+        if (pdpInfo) {
+          gsap.fromTo(pdpInfo, { opacity: 0, x: 16 }, {
+            opacity: 1,
+            x: 0,
+            duration: 0.56,
+            delay: 0.06,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+          });
+        }
+
+        const relatedCards = gsap.utils.toArray('.section--compact .product-grid .product-card');
+        if (relatedCards.length) {
+          gsap.fromTo(relatedCards, { opacity: 0, y: 20 }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.06,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+            scrollTrigger: {
+              trigger: relatedCards[0],
+              start: 'top 92%',
+              once: true,
+            },
+          });
+        }
+      }
+
+      // 4. About Page Animations
+      if (state.page === 'about') {
+        const aboutBlocks = gsap.utils.toArray('.about-story__block, .about-values__card, .about-grid > *');
+        if (aboutBlocks.length) {
+          aboutBlocks.forEach((block) => {
+            gsap.fromTo(block, { opacity: 0, y: 22 }, {
+              opacity: 1,
+              y: 0,
+              duration: 0.55,
+              ease: 'power2.out',
+              clearProps: 'opacity,transform',
+              scrollTrigger: { trigger: block, start: 'top 90%', once: true },
+            });
+          });
+        }
+      }
+
+      // 5. Contact, Cart, Wishlist, Search, FAQ Animations
+      if (state.page === 'contact') {
+        revealGroup('.contact-card, .contact-info__item, .contact-form-wrap', null, 0.07);
+      }
+      if (state.page === 'cart') {
+        revealGroup('.cart-table__row, .cart-summary-sticky, .cart-item', null, 0.06);
+      }
+      if (state.page === 'wishlist' || state.page === 'search') {
+        const gridCards = gsap.utils.toArray('.product-grid .product-card');
+        if (gridCards.length) {
+          gsap.fromTo(gridCards, { opacity: 0, y: 20 }, {
+            opacity: 1,
+            y: 0,
+            duration: 0.5,
+            stagger: 0.05,
+            ease: 'power2.out',
+            clearProps: 'opacity,transform',
+          });
+        }
+      }
+      if (state.page === 'faq' || state.page === 'policies') {
+        revealGroup('.accordion-item, .policy-card', null, 0.05);
       }
     });
   } catch {

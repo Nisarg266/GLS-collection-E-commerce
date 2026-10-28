@@ -27,6 +27,259 @@
 }
 
 /* ==========================================================================
+   Global Page & Component Haute-Couture Animations
+   ========================================================================== */
+
+/* Page & Section Smooth Entrances */
+#main-content {
+  animation: pageFadeUp 420ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes pageFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.breadcrumbs {
+  animation: subtleReveal 380ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* Product Cards Luxury Lift & Zoom */
+.product-card {
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.3s ease !important;
+}
+
+.product-card:hover {
+  transform: translateY(-5px) !important;
+  box-shadow: 0 16px 32px -8px rgba(20, 17, 15, 0.12), 0 4px 12px -2px rgba(20, 17, 15, 0.06) !important;
+  border-color: rgba(103, 31, 50, 0.22) !important;
+}
+
+.product-card__img {
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease !important;
+}
+
+.product-card:hover .product-card__img--primary {
+  transform: scale(1.055) !important;
+}
+
+.product-card__wishlist-btn {
+  transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, color 0.2s ease !important;
+}
+
+.product-card__wishlist-btn:hover {
+  transform: scale(1.12) !important;
+  background-color: #ffffff !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15) !important;
+}
+
+.product-card__wishlist-btn:active {
+  transform: scale(0.9) !important;
+}
+
+.product-card__quickview-btn {
+  transition: transform 0.28s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.24s ease, background-color 0.2s ease !important;
+}
+
+.product-card:hover .product-card__quickview-btn {
+  transform: translateY(-2px) !important;
+}
+
+.product-card__quickview-btn:hover {
+  background-color: var(--color-accent) !important;
+  transform: translateY(-3px) scale(1.02) !important;
+}
+
+/* Category Cards on Collections Page */
+.category-card {
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1), box-shadow 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.category-card:hover {
+  transform: translateY(-4px) !important;
+  box-shadow: 0 14px 28px -6px rgba(20, 17, 15, 0.12) !important;
+}
+
+.category-card img {
+  transition: transform 0.65s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.category-card:hover img {
+  transform: scale(1.05) !important;
+}
+
+/* Product Detail Page (PDP) Transitions */
+.pdp-gallery-sticky {
+  animation: pdpSlideInLeft 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.pdp-info-sticky {
+  animation: pdpSlideInRight 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
+  animation-delay: 50ms;
+}
+
+@keyframes pdpSlideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes pdpSlideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.pdp-main-stage {
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
+}
+
+.pdp-main-stage:hover {
+  box-shadow: 0 12px 30px -8px rgba(20, 17, 15, 0.08);
+}
+
+.pdp-main-stage img {
+  transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1), opacity 0.3s ease;
+  will-change: opacity, transform;
+}
+
+.pdp-main-stage:hover img {
+  transform: scale(1.035);
+}
+
+.pdp-thumb-btn {
+  transition: transform 0.25s cubic-bezier(0.25, 1, 0.5, 1), border-color 0.22s ease, opacity 0.22s ease, box-shadow 0.25s ease !important;
+}
+
+.pdp-thumb-btn:hover {
+  opacity: 0.95;
+  transform: translateY(-2px);
+}
+
+.pdp-thumb-btn.is-active {
+  border-color: var(--color-accent) !important;
+  opacity: 1 !important;
+  box-shadow: 0 4px 14px rgba(103, 31, 50, 0.22);
+  transform: translateY(-2px) scale(1.02);
+}
+
+/* Size & Color options interactive tactile feedback */
+.size-btn,
+.color-pill {
+  transition: transform 0.2s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.2s ease, background-color 0.2s ease, box-shadow 0.2s ease !important;
+}
+
+.size-btn:hover,
+.color-pill:hover {
+  transform: translateY(-1.5px);
+  border-color: var(--color-accent);
+}
+
+.size-btn:active,
+.color-pill:active {
+  transform: scale(0.94);
+}
+
+.size-btn.is-active,
+.color-pill.is-active {
+  border-color: var(--color-accent) !important;
+  background-color: var(--color-accent-soft) !important;
+  box-shadow: 0 2px 8px rgba(103, 31, 50, 0.14);
+}
+
+/* Collection Page Transitions */
+.catalog-toolbar {
+  animation: subtleReveal 400ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.active-filter-bar {
+  animation: fadeSlideUp 300ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.active-filter-chip {
+  animation: chipPopIn 0.25s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease !important;
+}
+
+.active-filter-chip:hover {
+  transform: translateY(-1px);
+  border-color: var(--color-accent);
+}
+
+@keyframes chipPopIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Primary Button & Add to Bag Micro-Animations */
+.btn--primary,
+[data-action="page-pdp-add-to-cart"],
+[data-action="add-to-bag"] {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.22s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.2s ease, box-shadow 0.25s ease !important;
+}
+
+.btn--primary:hover,
+[data-action="page-pdp-add-to-cart"]:hover,
+[data-action="add-to-bag"]:hover {
+  transform: translateY(-1.5px);
+  box-shadow: 0 8px 20px -4px rgba(103, 31, 50, 0.35) !important;
+}
+
+.btn--primary:active,
+[data-action="page-pdp-add-to-cart"]:active,
+[data-action="add-to-bag"]:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Accordion Smooth Expand & Chevron Rotation */
+.accordion-header svg {
+  transition: transform 0.35s cubic-bezier(0.25, 1, 0.5, 1) !important;
+}
+
+.accordion-item.is-open .accordion-header svg {
+  transform: rotate(180deg) !important;
+}
+
+.accordion-content {
+  animation: accordionFadeDown 0.28s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+@keyframes accordionFadeDown {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==========================================================================
    GLS Haute-Couture Split-Curtain Splash Screen (Ultra-Premium)
    ========================================================================== */
 .gls-splash {
