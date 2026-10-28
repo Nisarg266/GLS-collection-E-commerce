@@ -955,7 +955,8 @@ function handleActionClick(actionBtn) {
     }
 
     // Quick-Add / Wishlist
-    case 'quick-add': {
+    case 'quick-add':
+    case 'add-to-bag': {
       const productId = actionBtn.dataset.productId;
       const product = PRODUCTS.find((p) => p.id === productId);
       if (!product) return;

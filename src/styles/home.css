@@ -611,8 +611,12 @@
   .home-hero-indicator span { width: 16px; }
   .home-hero-indicator.is-active span { width: 28px; }
   .home-hero__counter { top: 1rem; right: 1rem; }
-  .home-categories, .home-arrivals, .home-instagram { padding-block: 3rem; }
+  .home-categories, .home-arrivals { padding-block: 2.6rem; }
+  .home-instagram { padding-block: 2rem 2.6rem; }
   .home-categories .section-header--split, .home-arrivals .section-header--split, .home-instagram .section-header--split { align-items: flex-start; }
+  .home-categories .section-header--split,
+  .home-arrivals .section-header--split,
+  .home-instagram .section-header--split { margin-bottom: 1rem; }
   .home-category-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.65rem; }
   .home-category-card { aspect-ratio: 4 / 4.6; }
   .home-category-card__label { right: 0.65rem; bottom: 0.65rem; left: 0.65rem; font-size: 0.83rem; }
@@ -622,9 +626,10 @@
   .home-editorial__image { min-height: 0; aspect-ratio: 1.14; }
   .home-editorial__copy { gap: 0.9rem; padding: 1.7rem 1.3rem 2rem; }
   .home-editorial__copy .section-title, .home-knitwear__copy .section-title { font-size: clamp(2.45rem, 10vw, 3.2rem); }
-  .home-knitwear { grid-template-columns: 1fr; margin-bottom: 2.8rem; padding-inline: 0; }
+  .home-knitwear { grid-template-columns: 1fr; margin-bottom: 1.65rem; padding-inline: 0; }
   .home-knitwear__image { min-height: 0; aspect-ratio: 1.15; }
-  .home-knitwear__copy { gap: 0.85rem; padding: 1.7rem 1.3rem 2rem; }
+  .home-knitwear__copy { gap: 0.75rem; padding: 1.5rem 1.3rem 1rem; }
+  .home-reels-slider-wrap { margin-top: 0.2rem; padding-block: 0.55rem 0.75rem; }
   .home-reel-card {
     width: 160px;
     aspect-ratio: 9 / 15.5;
