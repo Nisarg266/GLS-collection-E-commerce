@@ -1479,19 +1479,16 @@ function initSplashScreen() {
   const splash = document.getElementById('gls-splash-screen');
   if (!splash) return;
 
+  // Clear any previous dismiss lock so it plays cleanly on every page load/refresh
   try {
-    const isAlreadyDismissed = sessionStorage.getItem('gls_splash_dismissed');
-    if (isAlreadyDismissed) {
-      splash.classList.add('is-dismissed');
-      splash.style.display = 'none';
-      return;
-    }
+    sessionStorage.removeItem('gls_splash_dismissed');
   } catch {
-    // Storage access blocked or incognito fallback
+    // Ignore
   }
 
   const counterEl = document.getElementById('gls-splash-counter');
   const hairlineEl = document.getElementById('gls-splash-hairline');
+  const enterBtn = document.getElementById('gls-splash-skip');
 
   let isOpening = false;
   let animFrameId = null;
@@ -1505,11 +1502,6 @@ function initSplashScreen() {
     if (hairlineEl) hairlineEl.style.transform = 'scaleX(1)';
 
     splash.classList.add('is-opening');
-    try {
-      sessionStorage.setItem('gls_splash_dismissed', '1');
-    } catch {
-      // Ignore
-    }
 
     window.setTimeout(() => {
       splash.classList.add('is-dismissed');
@@ -1517,8 +1509,8 @@ function initSplashScreen() {
     }, 880);
   };
 
-  // High-fashion smooth percentage counting (00 to 100 over ~1.25s)
-  const duration = 1250;
+  // High-fashion smooth percentage counting (00 to 100 over ~1.75s)
+  const duration = 1750;
   const startTime = performance.now();
 
   const updateCounter = (now) => {
@@ -1538,17 +1530,24 @@ function initSplashScreen() {
     if (progress < 1 && !isOpening) {
       animFrameId = requestAnimationFrame(updateCounter);
     } else if (!isOpening) {
-      window.setTimeout(triggerCurtainReveal, 160);
+      window.setTimeout(triggerCurtainReveal, 200);
     }
   };
 
   animFrameId = requestAnimationFrame(updateCounter);
 
-  // Instant skip on tap/click or Escape key
+  // Instant skip on Enter Showroom button, backdrop click, or Escape key
+  if (enterBtn) {
+    enterBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      triggerCurtainReveal();
+    });
+  }
+
   splash.addEventListener('click', triggerCurtainReveal);
 
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && !isOpening) {
+    if ((e.key === 'Escape' || e.key === ' ' || e.key === 'Enter') && !isOpening) {
       triggerCurtainReveal();
     }
   });

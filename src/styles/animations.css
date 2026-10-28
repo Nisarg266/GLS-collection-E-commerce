@@ -217,6 +217,33 @@
   text-transform: uppercase;
 }
 
+.gls-splash__enter-btn {
+  margin-top: 1.35rem;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(229, 194, 192, 0.32);
+  color: #f7f1eb;
+  font-family: var(--font-body, 'DM Sans', sans-serif);
+  font-size: 0.74rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  padding: 0.45rem 1.25rem;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  position: relative;
+  z-index: 10;
+}
+
+.gls-splash__enter-btn:hover {
+  background: rgba(229, 194, 192, 0.18);
+  border-color: rgba(229, 194, 192, 0.65);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
 /* Curtain opening exit transition */
 .gls-splash.is-opening .gls-splash__curtain--top {
   transform: translateY(-100%);
