@@ -17,9 +17,9 @@ export function renderAnnouncementBar() {
       <div class="container announcement-bar__inner">
         <span>NEW ARRIVALS</span>
         <span class="announcement-bar__sep" aria-hidden="true">•</span>
-        <span class="announcement-bar__desktop-only">EVERYDAY STYLE AT LAW GARDEN</span>
+        <span class="announcement-bar__desktop-only">EVERYDAY STYLE</span>
         <span class="announcement-bar__sep announcement-bar__desktop-only" aria-hidden="true">•</span>
-        <span>DISCOVER YOUR NEXT FAVOURITE</span>
+        <span>EXPLORE THE COLLECTION</span>
       </div>
     </div>
   `;
@@ -62,8 +62,8 @@ export function renderHeader({
               src="${BRAND_CONFIG.assets.logo}"
               alt="${BRAND_CONFIG.name} logo"
               class="brand-logo-img"
-              width="50"
-              height="50"
+              width="68"
+              height="68"
               referrerpolicy="no-referrer"
             />
             <span class="brand-wordmark">${BRAND_CONFIG.name}</span>

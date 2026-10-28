@@ -4,10 +4,10 @@ import { renderIcon } from '../utils/icons.js';
 /**
  * Renders a single reusable product card linking to /product.html?handle=...
  * @param {object} product
- * @param {{wishlistIds?: Array<string>, sectionPrefix?: string}} options
+ * @param {{wishlistIds?: Array<string>, sectionPrefix?: string, motionClass?: string}} options
  */
 export function renderProductCard(product, options = {}) {
-  const { wishlistIds = [], sectionPrefix = 'catalog' } = options;
+  const { wishlistIds = [], sectionPrefix = 'catalog', motionClass = '' } = options;
   const isWishlisted = wishlistIds.includes(product.id);
   const primaryImage = (product.images && product.images[0]) || '/images/logo.png';
   const secondaryImage =
@@ -23,7 +23,7 @@ export function renderProductCard(product, options = {}) {
   }
 
   return `
-    <article class="product-card" data-product-id="${product.id}" data-product-handle="${product.handle}">
+    <article class="product-card ${motionClass}" data-product-id="${product.id}" data-product-handle="${product.handle}">
       <div class="product-card__media">
         <a
           href="${productUrl}"

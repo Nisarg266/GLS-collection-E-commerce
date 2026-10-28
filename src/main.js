@@ -487,6 +487,233 @@ function refreshMainContentOnly() {
     mainEl.innerHTML = renderPageMainContent();
   }
   renderOverlaysAndBadges();
+  initHomeCarousel();
+  if (state.page === 'home') initGsapAnimations();
+}
+
+let homeCarouselCleanup = null;
+let homeHeroTimeline = null;
+let pageGsapContext = null;
+
+function initHomeCarousel() {
+  if (homeCarouselCleanup) {
+    homeCarouselCleanup();
+    homeCarouselCleanup = null;
+  }
+
+  const hero = document.querySelector('.home-hero');
+  if (!hero) return;
+
+  const slides = [...hero.querySelectorAll('[data-hero-slide]')];
+  const indicators = [...hero.querySelectorAll('[data-hero-indicator]')];
+  const currentLabel = hero.querySelector('[data-hero-current]');
+  const toggleButton = hero.querySelector('[data-hero-action="toggle"]');
+  const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+  const delay = 5500;
+  let activeIndex = -1;
+  let transitionVersion = 0;
+  let timer = null;
+  let suspended = false;
+  let userPaused = reducedMotion.matches;
+  let touchStartX = null;
+
+  const clearTimer = () => {
+    if (timer !== null) window.clearTimeout(timer);
+    timer = null;
+  };
+  const schedule = () => {
+    clearTimer();
+    if (userPaused || suspended || document.hidden) return;
+    timer = window.setTimeout(() => {
+      showSlide(activeIndex + 1);
+      schedule();
+    }, delay);
+  };
+  const animateSlide = (slide) => {
+    transitionVersion += 1;
+    const currentVersion = transitionVersion;
+    if (homeHeroTimeline) {
+      homeHeroTimeline.kill();
+      homeHeroTimeline = null;
+    }
+
+    const animatedParts = [
+      slide.querySelector('.home-hero-slide__image'),
+      slide.querySelector('.home-hero-slide__title'),
+      slide.querySelector('.home-hero-slide__description'),
+      slide.querySelector('.home-hero-slide__actions'),
+    ].filter(Boolean);
+    if (typeof gsap.timeline !== 'function' || typeof gsap.set !== 'function') return;
+    try {
+      gsap.killTweensOf(animatedParts);
+      gsap.set(animatedParts, { clearProps: 'opacity,transform,visibility' });
+    } catch {
+      return;
+    }
+    if (reducedMotion.matches) return;
+
+    const image = slide.querySelector('.home-hero-slide__image');
+    const title = slide.querySelector('.home-hero-slide__title');
+    const description = slide.querySelector('.home-hero-slide__description');
+    const actions = slide.querySelector('.home-hero-slide__actions');
+    const isMobile = window.matchMedia('(max-width: 767.98px)').matches;
+    const motionDuration = isMobile ? 0.68 : 0.82;
+
+    try {
+      homeHeroTimeline = gsap.timeline({
+        defaults: { ease: 'power2.out' },
+        onComplete: () => {
+          if (transitionVersion === currentVersion) homeHeroTimeline = null;
+        },
+      });
+      if (image) {
+        homeHeroTimeline.fromTo(image, { scale: 1.04 }, {
+          scale: 1,
+          duration: motionDuration,
+          clearProps: 'transform',
+        }, 0);
+      }
+      if (title) {
+        homeHeroTimeline.fromTo(title, { opacity: 0, y: 16 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.42,
+          clearProps: 'opacity,transform',
+        }, 0.1);
+      }
+      if (description) {
+        homeHeroTimeline.fromTo(description, { opacity: 0, y: 10 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.38,
+          clearProps: 'opacity,transform',
+        }, 0.3);
+      }
+      if (actions) {
+        homeHeroTimeline.fromTo(actions, { opacity: 0, y: 8 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.32,
+          clearProps: 'opacity,transform',
+        }, 0.46);
+      }
+    } catch {
+      gsap.set(animatedParts, { clearProps: 'all' });
+      homeHeroTimeline = null;
+    }
+  };
+  const showSlide = (index) => {
+    const nextIndex = (index + slides.length) % slides.length;
+    if (nextIndex === activeIndex) return;
+    activeIndex = nextIndex;
+    slides.forEach((slide, slideIndex) => {
+      const isActive = slideIndex === activeIndex;
+      slide.classList.toggle('is-active', isActive);
+      slide.setAttribute('aria-hidden', String(!isActive));
+    });
+    indicators.forEach((indicator, slideIndex) => {
+      const isActive = slideIndex === activeIndex;
+      indicator.classList.toggle('is-active', isActive);
+      indicator.setAttribute('aria-current', String(isActive));
+    });
+    if (currentLabel) currentLabel.textContent = String(activeIndex + 1).padStart(2, '0');
+    animateSlide(slides[activeIndex]);
+  };
+  const onControlClick = (event) => {
+    const indicator = event.target.closest('[data-hero-indicator]');
+    const control = event.target.closest('[data-hero-action]');
+    if (indicator) {
+      showSlide(Number(indicator.dataset.heroIndicator));
+      schedule();
+      return;
+    }
+    if (!control) return;
+    const action = control.dataset.heroAction;
+    if (action === 'toggle') {
+      userPaused = !userPaused;
+      control.setAttribute('aria-pressed', String(userPaused));
+      control.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
+      control.innerHTML = renderIcon(userPaused ? 'play' : 'pause', 16);
+      schedule();
+      return;
+    }
+    showSlide(activeIndex + (action === 'previous' ? -1 : 1));
+    schedule();
+  };
+  const onPointerEnter = () => { suspended = true; clearTimer(); };
+  const onPointerLeave = () => { suspended = false; schedule(); };
+  const onFocusIn = () => { suspended = true; clearTimer(); };
+  const onFocusOut = (event) => {
+    if (!hero.contains(event.relatedTarget)) { suspended = false; schedule(); }
+  };
+  const onVisibilityChange = () => {
+    if (document.hidden) {
+      clearTimer();
+      homeHeroTimeline?.pause();
+    } else {
+      homeHeroTimeline?.resume();
+      schedule();
+    }
+  };
+  const onTouchStart = (event) => { touchStartX = event.changedTouches[0]?.clientX ?? null; clearTimer(); };
+  const onTouchEnd = (event) => {
+    const endX = event.changedTouches[0]?.clientX;
+    if (touchStartX !== null && endX !== undefined && Math.abs(endX - touchStartX) > 42) {
+      showSlide(activeIndex + (endX < touchStartX ? 1 : -1));
+    }
+    touchStartX = null;
+    schedule();
+  };
+  const syncPauseButton = () => {
+    if (!toggleButton) return;
+    toggleButton.setAttribute('aria-pressed', String(userPaused));
+    toggleButton.setAttribute('aria-label', userPaused ? 'Play slideshow' : 'Pause slideshow');
+    toggleButton.innerHTML = renderIcon(userPaused ? 'play' : 'pause', 16);
+  };
+  const onMotionChange = (event) => {
+    if (event.matches) {
+      userPaused = true;
+      homeHeroTimeline?.kill();
+      homeHeroTimeline = null;
+      gsap.killTweensOf(hero.querySelectorAll('.home-hero-slide__image, .home-hero-slide__title, .home-hero-slide__description, .home-hero-slide__actions'));
+      gsap.set(hero.querySelectorAll('.home-hero-slide__image, .home-hero-slide__title, .home-hero-slide__description, .home-hero-slide__actions'), { clearProps: 'opacity,transform,visibility' });
+      pageGsapContext?.revert();
+      pageGsapContext = null;
+    } else {
+      initGsapAnimations();
+    }
+    syncPauseButton();
+    schedule();
+  };
+
+  hero.addEventListener('click', onControlClick);
+  hero.addEventListener('mouseenter', onPointerEnter);
+  hero.addEventListener('mouseleave', onPointerLeave);
+  hero.addEventListener('focusin', onFocusIn);
+  hero.addEventListener('focusout', onFocusOut);
+  hero.addEventListener('touchstart', onTouchStart, { passive: true });
+  hero.addEventListener('touchend', onTouchEnd, { passive: true });
+  document.addEventListener('visibilitychange', onVisibilityChange);
+  reducedMotion.addEventListener?.('change', onMotionChange);
+  syncPauseButton();
+  showSlide(0);
+  schedule();
+
+  homeCarouselCleanup = () => {
+    clearTimer();
+    transitionVersion += 1;
+    homeHeroTimeline?.kill();
+    homeHeroTimeline = null;
+    hero.removeEventListener('click', onControlClick);
+    hero.removeEventListener('mouseenter', onPointerEnter);
+    hero.removeEventListener('mouseleave', onPointerLeave);
+    hero.removeEventListener('focusin', onFocusIn);
+    hero.removeEventListener('focusout', onFocusOut);
+    hero.removeEventListener('touchstart', onTouchStart);
+    hero.removeEventListener('touchend', onTouchEnd);
+    document.removeEventListener('visibilitychange', onVisibilityChange);
+    reducedMotion.removeEventListener?.('change', onMotionChange);
+  };
 }
 
 function renderApp() {
@@ -533,6 +760,9 @@ function renderApp() {
 }
 
 function initGsapAnimations() {
+  pageGsapContext?.revert();
+  pageGsapContext = null;
+
   const prefersReducedMotion =
     typeof window !== 'undefined' &&
     window.matchMedia &&
@@ -541,44 +771,72 @@ function initGsapAnimations() {
   if (prefersReducedMotion) return;
 
   try {
-    const heroText = document.querySelector('.gs-hero-text');
-    const heroMedia = document.querySelector('.gs-hero-media');
-    if (heroText) {
-      gsap.fromTo(
-        heroText,
-        { opacity: 0, y: 18 },
-        { opacity: 1, y: 0, duration: 0.65, ease: 'power2.out', clearProps: 'all' }
-      );
-    }
-    if (heroMedia) {
-      gsap.fromTo(
-        heroMedia,
-        { opacity: 0, scale: 0.985 },
-        { opacity: 1, scale: 1, duration: 0.75, ease: 'power2.out', clearProps: 'all' }
-      );
-    }
-
-    const revealElements = document.querySelectorAll('.gs-reveal');
-    revealElements.forEach((el) => {
-      gsap.fromTo(
-        el,
-        { opacity: 0.92, y: 14 },
-        {
+    pageGsapContext = gsap.context(() => {
+      document.querySelectorAll('.gs-reveal').forEach((element) => {
+        gsap.fromTo(element, { opacity: 0.94, y: 14 }, {
           opacity: 1,
           y: 0,
-          duration: 0.55,
+          duration: 0.52,
           ease: 'power2.out',
-          clearProps: 'all',
+          clearProps: 'opacity,transform',
           scrollTrigger: {
-            trigger: el,
+            trigger: element,
             start: 'top 92%',
             once: true,
           },
-        }
-      );
+        });
+      });
+
+      if (state.page !== 'home') return;
+
+      const revealGroup = (selector, triggerSelector, stagger = 0.06) => {
+        const elements = gsap.utils.toArray(selector);
+        const trigger = document.querySelector(triggerSelector);
+        if (!elements.length || !trigger) return;
+        gsap.fromTo(elements, { opacity: 0, y: 18 }, {
+          opacity: 1,
+          y: 0,
+          duration: 0.52,
+          stagger,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform',
+          scrollTrigger: { trigger, start: 'top 88%', once: true },
+        });
+      };
+
+      revealGroup('.home-category-card', '.home-category-grid', 0.055);
+      revealGroup('.home-product-reveal', '.home-arrivals .product-grid', 0.075);
+      const editorialImage = document.querySelector('.home-editorial__image');
+      const editorialLayout = document.querySelector('.home-editorial__layout');
+      if (editorialImage && editorialLayout) {
+        const simpleReveal = window.matchMedia('(max-width: 767.98px)').matches;
+        gsap.fromTo(editorialImage, {
+          opacity: 0,
+          y: simpleReveal ? 14 : 0,
+          clipPath: simpleReveal ? 'inset(0 0 0 0)' : 'inset(0 0 0 12%)',
+        }, {
+          opacity: 1,
+          y: 0,
+          clipPath: 'inset(0 0 0 0)',
+          duration: 0.58,
+          ease: 'power2.out',
+          clearProps: 'opacity,transform,clipPath',
+          scrollTrigger: { trigger: editorialLayout, start: 'top 88%', once: true },
+        });
+      }
+      revealGroup('.home-editorial__copy', '.home-editorial__layout', 0);
+      revealGroup('.home-knitwear__image, .home-knitwear__copy', '.home-knitwear', 0.12);
+      revealGroup('.home-instagram-card', '.home-instagram-grid', 0.065);
+      revealGroup('.home-store__inner', '.home-store', 0);
     });
   } catch {
-    // Non-blocking fallback: ensure content stays visible
+    pageGsapContext?.revert();
+    pageGsapContext = null;
+    try {
+      gsap.set(document.querySelectorAll('.gs-reveal, .home-category-card, .home-product-reveal, .home-editorial__image, .home-editorial__copy, .home-knitwear__image, .home-knitwear__copy, .home-instagram-card, .home-store__inner'), { clearProps: 'all' });
+    } catch {
+      // CSS keeps all reveal targets visible if GSAP cannot initialize.
+    }
   }
 }
 
@@ -1176,4 +1434,5 @@ function attachEventListeners() {
 
 renderApp();
 attachEventListeners();
+initHomeCarousel();
 initGsapAnimations();

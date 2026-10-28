@@ -21,370 +21,98 @@ import { renderProductCard } from './product-card.js';
 import { renderFilterGroupsHtml } from './search.js';
 
 export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
-  const newArrivals = PRODUCTS.filter((p) => p.isNewArrival).slice(0, 8);
-  const trendingBestsellers = PRODUCTS.filter((p) => p.isBestseller).slice(0, 4);
-
-  const categoryCardsHtml = CATEGORIES.map(
-    (cat) => `
-      <a
-        href="/collection.html?category=${encodeURIComponent(cat.slug)}"
-        class="category-card gs-reveal"
-        aria-label="Shop ${cat.name} — ${cat.subtitle}"
-      >
-        <div class="category-card__media">
-          <img
-            src="${cat.image}"
-            alt="${cat.name}"
-            class="category-card__img"
-            loading="lazy"
-            referrerpolicy="no-referrer"
-          />
+  const newArrivals = PRODUCTS.filter((product) => product.isNewArrival).slice(0, 4);
+  const instagramUrl = 'https://www.instagram.com/gls_collection_lawgarden/';
+  const categoriesHtml = CATEGORIES.map((category) => `
+    <a class="home-category-card" href="/collection.html?category=${encodeURIComponent(category.slug)}" aria-label="Shop ${category.name}">
+      <img src="${category.image}" alt="${category.name}" loading="lazy" />
+      <span class="home-category-card__shade" aria-hidden="true"></span>
+      <span class="home-category-card__label">${category.name}<span aria-hidden="true">${renderIcon('arrowRight', 16)}</span></span>
+    </a>
+  `).join('');
+  const slides = [
+    { image: '/images/campaign-everyday.jpg', alt: 'Model wearing an embroidered ivory cardigan in a sunlit courtyard', eyebrow: 'GLS COLLECTION · LAW GARDEN', title: 'Everyday Style,<br />Beautifully Found.', description: 'Fresh looks for every little moment.', primary: 'Shop New Arrivals', href: '/collection.html?category=new-arrivals', secondary: 'Explore Collections', secondaryHref: '/collections.html' },
+    { image: '/images/campaign-kidswear.jpg', alt: 'Children in comfortable sage and terracotta everyday outfits', eyebrow: 'A LITTLE JOY IN EVERY LOOK', title: 'Little Looks.<br />Big Personality.', description: 'Discover playful styles for little everyday adventures.', primary: 'Shop Kidswear', href: '/collection.html?category=kidswear' },
+    { image: '/images/campaign-knitwear.jpg', alt: 'Model in a rich burgundy knit cardigan in warm natural light', eyebrow: 'SOFT LAYERS, EVERYDAY EASE', title: 'Your Next<br />Favourite Layer.', description: 'Discover cardigans, knitwear and everyday essentials.', primary: 'Explore Knitwear', href: '/collection.html?category=knitwear' },
+  ];
+  const slidesHtml = slides.map((slide, index) => `
+    <article class="home-hero-slide ${index === 0 ? 'is-active' : ''}" data-hero-slide="${index}" aria-hidden="${index === 0 ? 'false' : 'true'}">
+      <img class="home-hero-slide__image" src="${slide.image}" alt="${slide.alt}" ${index === 0 ? 'fetchpriority="high"' : 'loading="lazy"'} />
+      <div class="home-hero-slide__overlay"></div>
+      <div class="home-hero-slide__content">
+        <p class="home-hero-slide__eyebrow">${slide.eyebrow}</p>
+        <h1 class="home-hero-slide__title">${slide.title}</h1>
+        <p class="home-hero-slide__description">${slide.description}</p>
+        <div class="home-hero-slide__actions">
+          <a class="btn btn--light" href="${slide.href}">${slide.primary}${renderIcon('arrowRight', 16)}</a>
+          ${slide.secondary ? `<a class="home-hero-slide__secondary" href="${slide.secondaryHref}">${slide.secondary}<span aria-hidden="true">↗</span></a>` : ''}
         </div>
-        <div class="category-card__body">
-          <div>
-            <h3 class="category-card__title">${cat.name}</h3>
-            <p class="category-card__meta">${cat.subtitle}</p>
-          </div>
-          <span style="color: var(--color-accent); flex-shrink: 0;">
-            ${renderIcon('arrowRight', 17)}
-          </span>
-        </div>
-      </a>
-    `
-  ).join('');
-
-  const instaCardsHtml = INSTAGRAM_SHOWCASE.map(
-    (item) => `
-      <button
-        type="button"
-        class="insta-card gs-reveal"
-        data-action="open-reel"
-        data-reel-id="${item.id}"
-        aria-label="Watch reel preview: ${item.title}"
-      >
-        <img
-          src="${item.thumbnail}"
-          alt="${item.title}"
-          class="insta-card__img"
-          loading="lazy"
-          referrerpolicy="no-referrer"
-        />
-        <div class="insta-card__overlay">
-          <span class="insta-card__play" aria-hidden="true">
-            ${renderIcon('play', 14)}
-          </span>
-          <div>
-            <div class="insta-card__caption">${item.title}</div>
-          </div>
-        </div>
-      </button>
-    `
-  ).join('');
+      </div>
+    </article>
+  `).join('');
+  const indicatorsHtml = slides.map((slide, index) => `
+    <button type="button" class="home-hero-indicator ${index === 0 ? 'is-active' : ''}" data-hero-indicator="${index}" aria-label="Show slide ${index + 1}" aria-current="${index === 0 ? 'true' : 'false'}"><span></span></button>
+  `).join('');
+  const instagramHtml = INSTAGRAM_SHOWCASE.slice(0, 4).map((item) => `
+    <button type="button" class="home-instagram-card" data-action="open-reel" data-reel-id="${item.id}" aria-label="Preview ${item.title}">
+      <img src="${item.thumbnail}" alt="${item.title}" loading="lazy" />
+      <span class="home-instagram-card__icon" aria-hidden="true">${renderIcon('instagram', 17)}</span>
+    </button>
+  `).join('');
 
   return `
-    <!-- B. Premium Hero Campaign -->
-    <section class="hero-section" aria-labelledby="hero-headline">
-      <div class="container">
-        <div class="hero-grid">
-          <div class="hero-content gs-hero-text">
-            <div class="hero-meta">
-              <span class="hero-meta__accent">${BRAND_CONFIG.name}</span>
-              <span aria-hidden="true">·</span>
-              <span>LAW GARDEN, AHMEDABAD</span>
-              <span aria-hidden="true">·</span>
-              <span>SEASONAL SHOWCASE</span>
-            </div>
-
-            <h1 class="hero-title" id="hero-headline">
-              Everyday Style, Beautifully Found.
-            </h1>
-
-            <p class="hero-subtitle">
-              Fresh looks for every little moment. Explore 3D floral batwing knitwear, Korean crochet-collar shirts, fluid vacation dresses, and joyful kidswear.
-            </p>
-
-            <div class="hero-actions">
-              <a
-                href="/collection.html?category=new-arrivals"
-                class="btn btn--accent"
-              >
-                <span>Shop New Arrivals</span>
-                ${renderIcon('arrowRight', 16)}
-              </a>
-              <a
-                href="/collections.html"
-                class="btn btn--outline"
-              >
-                <span>Explore Collections</span>
-              </a>
-            </div>
-
-            <div class="hero-highlights tabular-nums">
-              <span><strong>${BRAND_CONFIG.tagline}</strong></span>
-              <span aria-hidden="true">·</span>
-              <span>${BRAND_CONFIG.subTagline}</span>
-              <span aria-hidden="true">·</span>
-              <span>Sample Demo Prices from ₹199</span>
-            </div>
-          </div>
-
-          <div class="hero-media gs-hero-media">
-            <picture class="hero-picture">
-              <source media="(min-width: 768px)" srcset="${BRAND_CONFIG.assets.heroDesktop}" />
-              <img
-                src="${BRAND_CONFIG.assets.heroMobile}"
-                alt="GLS Collection Featured Apparel on Hanger"
-                class="hero-media__img"
-                referrerpolicy="no-referrer"
-              />
-            </picture>
-            <div class="hero-media__scrim">
-              <span class="hero-media__caption-kicker">${BRAND_CONFIG.subTagline}</span>
-              <p class="hero-media__caption-title">Curated Showroom Arrivals at Law Garden</p>
-            </div>
-          </div>
+    <section class="home-hero" aria-label="GLS Collection campaigns">
+      <div class="home-hero__slides">${slidesHtml}</div>
+      <div class="home-hero__controls" aria-label="Campaign slideshow controls">
+        <div class="home-hero__indicators">${indicatorsHtml}</div>
+        <div class="home-hero__arrows">
+          <button type="button" data-hero-action="previous" class="home-hero__arrow" aria-label="Previous campaign">${renderIcon('arrowLeft', 18)}</button>
+          <button type="button" data-hero-action="next" class="home-hero__arrow" aria-label="Next campaign">${renderIcon('arrowRight', 18)}</button>
+          <button type="button" data-hero-action="toggle" class="home-hero__arrow home-hero__pause" aria-label="Pause slideshow" aria-pressed="false">${renderIcon('pause', 16)}</button>
         </div>
+      </div>
+      <span class="home-hero__counter" aria-live="polite"><span data-hero-current>01</span><span aria-hidden="true"> / </span>03</span>
+    </section>
+
+    <section class="section home-categories" id="categories-section" aria-labelledby="categories-heading">
+      <div class="container">
+        <div class="section-header--split gs-reveal"><div><span class="section-kicker">A WORLD OF EVERYDAY STYLE</span><h2 class="section-title" id="categories-heading">Find your kind of lovely</h2></div><a href="/collections.html" class="home-text-link">View all collections ${renderIcon('arrowRight', 15)}</a></div>
+        <div class="home-category-grid">${categoriesHtml}</div>
       </div>
     </section>
 
-    <!-- C. Shop by Category -->
-    <section class="section" id="categories-section" aria-labelledby="categories-heading">
+    <section class="section section--surface home-arrivals" id="new-arrivals-section" aria-labelledby="new-arrivals-heading">
       <div class="container">
-        <div class="section-header--split gs-reveal">
-          <div>
-            <span class="section-kicker">CURATED DEPARTMENTS</span>
-            <h2 class="section-title" id="categories-heading">Shop by Category</h2>
-          </div>
-          <a href="/collections.html" class="btn btn--outline btn--sm">
-            <span>View All Collections</span>
-            ${renderIcon('arrowRight', 15)}
-          </a>
-        </div>
-        <div class="category-grid">
-          ${categoryCardsHtml}
-        </div>
+        <div class="section-header--split gs-reveal"><div><span class="section-kicker">JUST IN AT GLS</span><h2 class="section-title" id="new-arrivals-heading">New arrivals</h2><p class="section-subtitle">A few fresh favourites, ready to meet you.</p></div><a href="/collection.html?category=new-arrivals" class="btn btn--outline btn--sm">View all new arrivals ${renderIcon('arrowRight', 15)}</a></div>
+        <div class="product-grid">${newArrivals.map((product) => renderProductCard(product, { wishlistIds: wishlist, sectionPrefix: 'new-arrivals', motionClass: 'home-product-reveal' })).join('')}</div>
       </div>
     </section>
 
-    <!-- D. New Arrivals -->
-    <section class="section section--surface" id="new-arrivals-section" aria-labelledby="new-arrivals-heading">
-      <div class="container">
-        <div class="section-header--split gs-reveal">
-          <div>
-            <span class="section-kicker">FRESH DROPS</span>
-            <h2 class="section-title" id="new-arrivals-heading">New Arrivals</h2>
-            <p class="section-subtitle">
-              Discover our latest showroom additions across women’s knitwear, Korean tops, dresses, and children’s sets.
-            </p>
-          </div>
-          <a href="/collection.html?category=new-arrivals" class="btn btn--primary btn--sm">
-            <span>View All New Arrivals</span>
-            ${renderIcon('arrowRight', 15)}
-          </a>
-        </div>
+    <section class="section home-editorial" id="editorial-section" aria-labelledby="editorial-heading">
+      <div class="container"><div class="home-editorial__layout gs-reveal">
+        <div class="home-editorial__image"><img src="/images/campaign-editorial.jpg" alt="A curated edit of embroidered knitwear and a sage children's set" loading="lazy" /></div>
+        <div class="home-editorial__copy"><span class="section-kicker">MADE FOR YOUR EVERYDAY MOMENTS</span><h2 class="section-title" id="editorial-heading">Little adventures.<br /><em>Lovely layers.</em></h2><p>Explore clothing styles for little adventures, everyday dressing and seasonal favourites.</p><a href="/collections.html" class="btn btn--accent">Discover the collection ${renderIcon('arrowRight', 16)}</a></div>
+      </div></div>
+    </section>
 
-        <div class="product-grid">
-          ${newArrivals
-            .map((product) =>
-              renderProductCard(product, {
-                wishlistIds: wishlist,
-                sectionPrefix: 'new-arrivals',
-              })
-            )
-            .join('')}
-        </div>
+    <section class="home-knitwear" aria-labelledby="knitwear-heading">
+      <div class="home-knitwear__image"><img src="/images/categories/knitwear.jpg" alt="Soft knitwear and cardigans" loading="lazy" /></div>
+      <div class="home-knitwear__copy"><span class="section-kicker">THE COMFORT OF A GOOD LAYER</span><h2 class="section-title" id="knitwear-heading">Tactile knitwear.<br /><em>Easy silhouettes.</em></h2><p>Cardigans, sweaters and soft layers for the rhythm of every day.</p><a class="home-text-link" href="/collection.html?category=knitwear">Explore knitwear ${renderIcon('arrowRight', 15)}</a></div>
+    </section>
+
+    <section class="section home-instagram" id="instagram-section" aria-labelledby="instagram-heading">
+      <div class="container"><div class="section-header--split gs-reveal"><div><span class="section-kicker">A GLIMPSE FROM THE SHOWROOM</span><h2 class="section-title" id="instagram-heading">Follow along on Instagram</h2></div><a class="home-text-link" href="${instagramUrl}" target="_blank" rel="noopener noreferrer">@gls_collection_lawgarden ${renderIcon('external', 14)}</a></div>
+        <div class="home-instagram-grid">${instagramHtml}</div>
+        <a class="btn btn--outline home-instagram__cta" href="${instagramUrl}" target="_blank" rel="noopener noreferrer">${renderIcon('instagram', 16)} Follow on Instagram ${renderIcon('external', 14)}</a>
       </div>
     </section>
 
-    <!-- E. Editorial Feature -->
-    <section class="section" id="editorial-section" aria-labelledby="editorial-heading">
-      <div class="container">
-        <div class="editorial-split gs-reveal">
-          <div class="editorial-media">
-            <img
-              src="${BRAND_CONFIG.assets.featuredEditorial}"
-              alt="GLS Collection 3D Floral Knitwear & Seasonal Edit"
-              class="editorial-media__img"
-              loading="lazy"
-              referrerpolicy="no-referrer"
-            />
-          </div>
-          <div class="editorial-body">
-            <span class="section-kicker">SEASONAL EDITORIAL</span>
-            <h2 class="section-title" id="editorial-heading">
-              Tactile Knitwear &amp; Contemporary Silhouettes
-            </h2>
-            <p class="section-subtitle">
-              Whether dressing for a relaxed afternoon outing, festive gathering, or family celebration, our curated racks pair statement textures—from 3D ribbon florals and pearl collars to breathable cotton-linen—with effortless everyday comfort.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; padding-top: 0.5rem;">
-              <a href="/collection.html?category=knitwear" class="btn btn--accent">
-                <span>Explore Knitwear Collection</span>
-                ${renderIcon('arrowRight', 16)}
-              </a>
-              <a href="/product.html?handle=cute-bow-cardigan" class="btn btn--outline">
-                Inspect Featured Cardigan
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
+    <section class="home-store" aria-labelledby="home-store-heading"><div class="container home-store__inner"><div><span class="section-kicker">COME SAY HELLO</span><h2 class="section-title" id="home-store-heading">Discover GLS COLLECTION</h2><p>${BRAND_CONFIG.locationContext}</p></div><a class="btn btn--accent" href="${BRAND_CONFIG.googleMapsUrl}" target="_blank" rel="noopener noreferrer">Find us on Google Maps ${renderIcon('external', 14)}</a></div></section>
 
-    <!-- F. Featured / Trending Collection -->
-    <section class="section section--muted" id="trending-section" aria-labelledby="trending-heading">
-      <div class="container">
-        <div class="section-header--split gs-reveal">
-          <div>
-            <span class="section-kicker">MOST LOVED PIECES</span>
-            <h2 class="section-title" id="trending-heading">Trending in Showroom</h2>
-          </div>
-          <a href="/collection.html?category=all" class="btn btn--outline btn--sm">
-            <span>Shop Complete Catalog (${PRODUCTS.length})</span>
-            ${renderIcon('arrowRight', 15)}
-          </a>
-        </div>
-        <div class="product-grid">
-          ${trendingBestsellers
-            .map((product) =>
-              renderProductCard(product, {
-                wishlistIds: wishlist,
-                sectionPrefix: 'trending',
-              })
-            )
-            .join('')}
-        </div>
-      </div>
-    </section>
-
-    <!-- G. Instagram Showcase -->
-    <section class="section section--surface" id="instagram-section" aria-labelledby="instagram-heading">
-      <div class="container">
-        <div class="section-header--split gs-reveal">
-          <div>
-            <span class="section-kicker">INSTAGRAM-INSPIRED SHOWCASE</span>
-            <h2 class="section-title" id="instagram-heading">
-              ${BRAND_CONFIG.instagramHandle}
-            </h2>
-            <p class="section-subtitle">
-              Curated visual grid using actual supplied showroom reels. Tap any tile to preview the reel video or open the official Instagram profile.
-            </p>
-          </div>
-          <a
-            href="${BRAND_CONFIG.instagramUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            class="btn btn--accent btn--sm"
-          >
-            ${renderIcon('instagram', 16)}
-            <span>Follow on Instagram</span>
-            ${renderIcon('external', 14)}
-          </a>
-        </div>
-
-        <div class="instagram-grid">
-          ${instaCardsHtml}
-        </div>
-      </div>
-    </section>
-
-    <!-- H. Brand Introduction & I. Store Discovery -->
-    <section class="section" id="store-discovery-section" aria-labelledby="brand-intro-heading">
-      <div class="container">
-        <div class="story-grid gs-reveal">
-          <div class="info-panel">
-            <span class="section-kicker">THE DESTINATION</span>
-            <h2 class="section-title" id="brand-intro-heading">
-              ${BRAND_CONFIG.tagline}. ${BRAND_CONFIG.subTagline}.
-            </h2>
-            <p style="color: var(--color-text-secondary);">
-              Located in Law Garden, Ahmedabad, <strong>${BRAND_CONFIG.name}</strong> brings together fresh daily fashion across Kidswear, Cardigans &amp; Knitwear, Korean Tops, Linen Trousers, Kurtis, and Occasion Dresses.
-            </p>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: auto; padding-top: 0.5rem;">
-              <a href="/about.html" class="btn btn--primary btn--sm">
-                <span>Read About GLS COLLECTION</span>
-                ${renderIcon('arrowRight', 15)}
-              </a>
-              <a href="/contact.html" class="btn btn--outline btn--sm">
-                Contact &amp; Store Info
-              </a>
-            </div>
-          </div>
-
-          <div class="info-panel">
-            <span class="section-kicker">VISIT OUR STORE</span>
-            <h3 class="section-title" style="font-size: 1.75rem;">Law Garden Showroom</h3>
-            <div class="store-details-list">
-              <div>
-                <div class="store-detail-item__label">Location Context</div>
-                <div class="store-detail-item__value">${BRAND_CONFIG.locationContext}</div>
-              </div>
-              <div>
-                <div class="store-detail-item__label">Showroom Hours</div>
-                <div class="store-detail-item__value">${BRAND_CONFIG.storeHours}</div>
-              </div>
-            </div>
-            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
-              <a
-                href="${BRAND_CONFIG.googleMapsUrl}"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="btn btn--accent btn--sm"
-              >
-                ${renderIcon('mapPin', 15)}
-                <span>Open Location in Google Maps</span>
-                ${renderIcon('external', 14)}
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- J. Newsletter Demonstration -->
-    <section class="section section--muted" aria-labelledby="newsletter-heading">
-      <div class="container">
-        <div class="newsletter-box gs-reveal">
-          <span class="section-kicker">STAY IN THE LOOP (DEMO)</span>
-          <h2 class="section-title" id="newsletter-heading" style="font-size: 1.9rem;">
-            New Arrival Alerts &amp; Showroom Updates
-          </h2>
-          <p class="section-subtitle">
-            Preview how shoppers can subscribe to receive notifications when new seasonal collections arrive at GLS COLLECTION.
-          </p>
-          ${
-            newsletterState.submittedEmail
-              ? `
-                <div class="demo-mode-banner" role="status">
-                  <strong>Demo Subscription Confirmed:</strong> Thank you! <em>${newsletterState.submittedEmail}</em> has been validated in this presentation preview (no external emails are sent in demo mode).
-                </div>
-              `
-              : `
-                <form id="newsletter-demo-form" class="newsletter-form" novalidate>
-                  <label for="newsletter-email-input" class="sr-only">Email address</label>
-                  <input
-                    type="email"
-                    id="newsletter-email-input"
-                    name="email"
-                    class="form-input"
-                    style="flex: 1 1 220px;"
-                    placeholder="Enter your email address..."
-                    required
-                  />
-                  <button type="submit" class="btn btn--primary">
-                    Subscribe (Demo)
-                  </button>
-                </form>
-                ${
-                  newsletterState.error
-                    ? `<p style="font-size: 12px; color: var(--color-danger);" role="alert">${newsletterState.error}</p>`
-                    : `<p style="font-size: 11px; color: var(--color-text-muted);">Demonstration feature — no real email list is stored remotely.</p>`
-                }
-              `
-          }
-        </div>
-      </div>
-    </section>
+    <section class="section home-newsletter" aria-labelledby="newsletter-heading"><div class="container"><div class="newsletter-box gs-reveal">
+      <span class="section-kicker">A NOTE WHEN SOMETHING NEW ARRIVES</span><h2 class="section-title" id="newsletter-heading">Stay in the loop</h2><p class="section-subtitle">Occasional notes about new styles and showroom updates.</p>
+      ${newsletterState.submittedEmail ? `<div class="demo-mode-banner" role="status">Thanks, <em>${newsletterState.submittedEmail}</em>. Your email was validated in this demo; no message has been sent.</div>` : `<form id="newsletter-demo-form" class="newsletter-form" novalidate><label for="newsletter-email-input" class="sr-only">Email address</label><input type="email" id="newsletter-email-input" name="email" class="form-input" placeholder="Your email address" required /><button type="submit" class="btn btn--primary">Sign me up ${renderIcon('arrowRight', 15)}</button></form>${newsletterState.error ? `<p class="home-newsletter__note" role="alert">${newsletterState.error}</p>` : '<p class="home-newsletter__note">Demo form · Your details are not stored or sent.</p>'}`}
+    </div></div></section>
   `;
 }
 

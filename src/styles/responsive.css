@@ -152,13 +152,13 @@
   }
 
   .brand-logo-img {
-    width: 50px;
-    height: 50px;
+    width: 58px;
+    height: 58px;
   }
 
   .brand-wordmark {
-    font-size: 1.35rem;
-    letter-spacing: 0.05em;
+    font-size: 1.4rem;
+    letter-spacing: 0.04em;
   }
 
   .icon-btn {
@@ -259,12 +259,33 @@
     height: var(--header-height-desktop);
   }
 
-  .mobile-menu-btn {
-    display: none;
+  .brand-logo-link {
+    gap: 0.9rem;
+  }
+
+  .brand-logo-img {
+    width: 68px;
+    height: 68px;
+    filter: drop-shadow(0 3px 10px rgba(0, 0, 0, 0.08));
+  }
+
+  .brand-wordmark {
+    font-size: 1.55rem;
+    letter-spacing: 0.05em;
   }
 
   .desktop-nav {
     display: flex;
+    gap: var(--space-8);
+  }
+
+  .desktop-nav__link {
+    font-size: 0.95rem;
+    padding-block: 0.5rem;
+  }
+
+  .mobile-menu-btn {
+    display: none;
   }
 
   .mobile-bottom-nav {
