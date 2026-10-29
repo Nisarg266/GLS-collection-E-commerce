@@ -21,7 +21,7 @@ import { renderProductCard } from './product-card.js';
 import { renderFilterGroupsHtml } from './search.js';
 
 export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
-  const newArrivals = PRODUCTS.filter((product) => product.isNewArrival).slice(0, 4);
+  const newArrivals = PRODUCTS.filter((product) => product.isNewArrival);
   const instagramUrl = 'https://www.instagram.com/gls_collection_lawgarden/';
   const categoriesHtml = CATEGORIES.map((category) => `
     <a class="home-category-card" href="/collection.html?category=${encodeURIComponent(category.slug)}" aria-label="Shop ${category.name}">
@@ -133,8 +133,112 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
 
     <section class="section section--surface home-arrivals" id="new-arrivals-section" aria-labelledby="new-arrivals-heading">
       <div class="container">
-        <div class="section-header--split gs-reveal"><div><span class="section-kicker">JUST IN AT GLS</span><h2 class="section-title" id="new-arrivals-heading">New arrivals</h2><p class="section-subtitle">A few fresh favourites, ready to meet you.</p></div><a href="/collection.html?category=new-arrivals" class="btn btn--outline btn--sm">View all new arrivals ${renderIcon('arrowRight', 15)}</a></div>
-        <div class="product-grid">${newArrivals.map((product) => renderProductCard(product, { wishlistIds: wishlist, sectionPrefix: 'new-arrivals', motionClass: 'home-product-reveal' })).join('')}</div>
+        <div class="section-header--split gs-reveal">
+          <div>
+            <span class="section-kicker">JUST IN AT GLS</span>
+            <h2 class="section-title" id="new-arrivals-heading">New arrivals</h2>
+            <p class="section-subtitle">A few fresh favourites, ready to meet you.</p>
+          </div>
+          <div class="arrivals-slider__header-actions">
+            <div class="arrivals-slider__nav-btns" aria-label="New arrivals navigation">
+              <button
+                type="button"
+                class="arrivals-slider__arrow arrivals-slider__arrow--prev"
+                data-arrivals-nav="prev"
+                aria-label="Previous arrivals"
+                title="Previous slide"
+              >
+                ${renderIcon('arrowLeft', 18)}
+              </button>
+              <button
+                type="button"
+                class="arrivals-slider__arrow arrivals-slider__arrow--next"
+                data-arrivals-nav="next"
+                aria-label="Next arrivals"
+                title="Next slide"
+              >
+                ${renderIcon('arrowRight', 18)}
+              </button>
+            </div>
+            <a href="/collection.html?category=new-arrivals" class="btn btn--outline btn--sm arrivals-slider__view-all">
+              <span>View all new arrivals</span>
+              ${renderIcon('arrowRight', 15)}
+            </a>
+          </div>
+        </div>
+
+        <div class="arrivals-slider" data-arrivals-slider aria-roledescription="carousel" aria-label="New arrivals carousel">
+          <div class="arrivals-slider__viewport">
+            <div
+              class="arrivals-slider__track"
+              data-arrivals-track
+              tabindex="0"
+              role="region"
+              aria-label="New arrivals product list"
+            >
+              ${newArrivals.map((product, idx) => `
+                <div class="arrivals-slider__slide" data-arrivals-slide="${idx}">
+                  ${renderProductCard(product, {
+                    wishlistIds: wishlist,
+                    sectionPrefix: 'new-arrivals',
+                    motionClass: 'home-product-reveal'
+                  })}
+                </div>
+              `).join('')}
+            </div>
+
+            <button
+              type="button"
+              class="arrivals-slider__side-btn arrivals-slider__side-btn--prev"
+              data-arrivals-nav="prev"
+              aria-label="Previous arrivals"
+              tabindex="-1"
+            >
+              ${renderIcon('arrowLeft', 20)}
+            </button>
+            <button
+              type="button"
+              class="arrivals-slider__side-btn arrivals-slider__side-btn--next"
+              data-arrivals-nav="next"
+              aria-label="Next arrivals"
+              tabindex="-1"
+            >
+              ${renderIcon('arrowRight', 20)}
+            </button>
+          </div>
+
+          <div class="arrivals-slider__controls" aria-label="Slider progress and controls">
+            <div class="arrivals-slider__counter">
+              <span class="arrivals-slider__counter-current" data-arrivals-counter-curr>01</span>
+              <span class="arrivals-slider__counter-sep">/</span>
+              <span class="arrivals-slider__counter-total" data-arrivals-counter-total>${String(newArrivals.length).padStart(2, '0')}</span>
+            </div>
+
+            <div
+              class="arrivals-slider__progress-track"
+              role="progressbar"
+              aria-valuemin="0"
+              aria-valuemax="100"
+              aria-valuenow="10"
+              aria-label="Carousel scroll progress"
+              title="Click or scrub to navigate"
+            >
+              <div class="arrivals-slider__progress-fill" data-arrivals-progress></div>
+            </div>
+
+            <div class="arrivals-slider__dots" data-arrivals-dots aria-label="Select slide">
+              ${newArrivals.map((_, i) => `
+                <button
+                  type="button"
+                  class="arrivals-slider__dot ${i === 0 ? 'is-active' : ''}"
+                  data-arrivals-dot="${i}"
+                  aria-label="Go to product ${i + 1}"
+                  aria-current="${i === 0 ? 'true' : 'false'}"
+                ></button>
+              `).join('')}
+            </div>
+          </div>
+        </div>
       </div>
     </section>
 
@@ -156,7 +260,7 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
             <span class="home-lookbook-card__content"><small>PLAYFUL DAYS</small><strong>Little looks, big joy.</strong><span>Shop kidswear ${renderIcon('arrowRight', 16)}</span></span>
           </a>
           <a class="home-lookbook-card" href="/collection.html?category=dresses">
-            <img src="/images/categories/dresses.jpg" alt="Dresses and occasion styles" loading="lazy" />
+            <img src="/images/products/pearl-neck-dress-model.jpg" alt="Dresses and occasion styles with model" loading="lazy" />
             <span class="home-lookbook-card__shade" aria-hidden="true"></span>
             <span class="home-lookbook-card__content"><small>DRESS THE MOMENT</small><strong>Soft drama, beautifully worn.</strong><span>Explore dresses ${renderIcon('arrowRight', 16)}</span></span>
           </a>
@@ -172,7 +276,7 @@ export function renderHomePage({ wishlist = [], newsletterState = {} } = {}) {
     </section>
 
     <section class="home-knitwear" aria-labelledby="knitwear-heading">
-      <div class="home-knitwear__image"><img src="/images/categories/knitwear.jpg" alt="Soft knitwear and cardigans" loading="lazy" /></div>
+      <div class="home-knitwear__image"><img src="/images/products/floral-bow-cardigan-model.jpg" alt="Model wearing soft 3D floral ribbed knitwear" loading="lazy" /></div>
       <div class="home-knitwear__copy"><span class="section-kicker">THE COMFORT OF A GOOD LAYER</span><h2 class="section-title" id="knitwear-heading">Tactile knitwear.<br /><em>Easy silhouettes.</em></h2><p>Cardigans, sweaters and soft layers for the rhythm of every day.</p><a class="home-text-link" href="/collection.html?category=knitwear">Explore knitwear ${renderIcon('arrowRight', 15)}</a></div>
     </section>
 
@@ -602,7 +706,7 @@ export function renderProductDetailPage({
                 data-image-src="${activeImage}"
                 aria-label="Enlarge product image"
               >
-                ${renderIcon('zoomIn', 14)}
+                ${renderIcon('zoomIn', 16)}
                 <span>Inspect Fabric</span>
               </button>
             </div>
@@ -634,7 +738,7 @@ export function renderProductDetailPage({
 
           <!-- Right Column: Sticky Purchase Module -->
           <div class="pdp-info-sticky">
-            <div class="product-card__meta">
+            <div class="product-card__meta pdp-meta">
               <span>${product.category}</span>
               <span aria-hidden="true">·</span>
               <span>${product.inStock ? 'In Stock (Sample Demo Inventory)' : 'Out of Stock'}</span>
@@ -645,25 +749,25 @@ export function renderProductDetailPage({
               }
             </div>
 
-            <h1 class="section-title" id="pdp-product-title" style="font-size: clamp(1.75rem, 2.6vw, 2.35rem);">
+            <h1 class="section-title pdp-product-title" id="pdp-product-title">
               ${product.name}
             </h1>
 
-            <div class="product-card__price-row tabular-nums" style="margin-top: 0;">
-              <span class="product-card__price" style="font-size: 1.55rem;">${formatINR(product.price)}</span>
+            <div class="product-card__price-row pdp-price-row tabular-nums">
+              <span class="product-card__price pdp-price-current">${formatINR(product.price)}</span>
               ${
                 product.compareAtPrice && product.compareAtPrice > product.price
-                  ? `<span class="product-card__compare" style="font-size: 1rem;">${formatINR(product.compareAtPrice)}</span>`
+                  ? `<span class="product-card__compare pdp-price-compare">${formatINR(product.compareAtPrice)}</span>`
                   : ''
               }
               ${
                 discountPct > 0
-                  ? `<span class="product-card__discount">${discountPct}% off (Sample Pricing)</span>`
+                  ? `<span class="product-card__discount pdp-price-discount">${discountPct}% off (Sample Pricing)</span>`
                   : ''
               }
             </div>
 
-            <p style="font-size: var(--text-base); color: var(--color-text-secondary);">
+            <p class="pdp-description">
               ${product.description}
             </p>
 
@@ -723,7 +827,7 @@ export function renderProductDetailPage({
 
             <div class="option-group">
               <span class="option-label">Quantity</span>
-              <div style="display: flex; align-items: center; gap: 0.85rem;">
+              <div style="display: flex; align-items: center; gap: 0.85rem; flex-wrap: wrap;">
                 <div class="qty-stepper" role="group" aria-label="Select quantity">
                   <button
                     type="button"
@@ -731,7 +835,7 @@ export function renderProductDetailPage({
                     data-action="page-pdp-qty-dec"
                     aria-label="Decrease quantity"
                   >
-                    ${renderIcon('minus', 14)}
+                    ${renderIcon('minus', 15)}
                   </button>
                   <span class="qty-stepper__val" data-pdp-qty-val>${quantity}</span>
                   <button
@@ -740,35 +844,34 @@ export function renderProductDetailPage({
                     data-action="page-pdp-qty-inc"
                     aria-label="Increase quantity"
                   >
-                    ${renderIcon('plus', 14)}
+                    ${renderIcon('plus', 15)}
                   </button>
                 </div>
-                <span style="font-size: 12px; color: var(--color-text-muted);">
+                <span class="pdp-qty-note">
                   Sample inventory for presentation demo
                 </span>
               </div>
             </div>
 
-            <div style="display: flex; flex-wrap: wrap; gap: 0.75rem;">
+            <div class="pdp-action-btns">
               <button
                 type="button"
-                class="btn btn--accent"
-                style="flex: 1 1 220px;"
+                class="btn btn--accent pdp-btn--bag"
                 data-action="page-pdp-add-to-bag"
                 data-product-id="${product.id}"
               >
-                ${renderIcon('bag', 17)}
+                ${renderIcon('bag', 18)}
                 <span data-pdp-bag-text>Add to Bag · ${formatINR(product.price * quantity)}</span>
               </button>
 
               <button
                 type="button"
-                class="btn btn--outline"
+                class="btn btn--outline pdp-btn--wishlist"
                 data-action="toggle-wishlist"
                 data-product-id="${product.id}"
                 aria-label="${isWishlisted ? 'Remove from wishlist' : 'Save to wishlist'}"
               >
-                ${renderIcon('heart', 17)}
+                ${renderIcon('heart', 18)}
                 <span>${isWishlisted ? 'Saved in Wishlist' : 'Add to Wishlist'}</span>
               </button>
             </div>

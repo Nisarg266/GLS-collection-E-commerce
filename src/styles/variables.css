@@ -55,8 +55,8 @@
   --space-20: 5rem;
 
   /* Layout & Containers */
-  --container-max: 1320px;
-  --container-pad: 1.15rem;
+  --container-max: 1400px;
+  --container-pad: 1.25rem;
   --header-height-desktop: 72px;
   --header-height-mobile: 56px;
   --bottom-nav-height: 54px;

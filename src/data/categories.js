@@ -34,7 +34,7 @@ export const CATEGORIES = [
     subtitle: 'Co-ord sets, denim jumpsuits & festive tops (Ages 4–14)',
     description:
       'Playful, comfort-first children’s outfits spanning waffle-knit co-ord sets, vintage-wash denim dungarees, and embroidered festive tops for ages 4 to 14 years.',
-    image: '/images/categories/kidswear.jpg',
+    image: '/images/products/kids-waffle-cordset-model.jpg',
     filterValue: 'Kidswear',
   },
   {
@@ -45,7 +45,7 @@ export const CATEGORIES = [
     subtitle: '3D floral batwing sweaters, cardigans & ribbed knits',
     description:
       'Tactile ribbed knitwear, handcrafted 3D ribbon-flower batwing tops, and lightweight button-front cardigans designed for effortless layering.',
-    image: '/images/categories/knitwear.jpg',
+    image: '/images/products/floral-bow-cardigan-model.jpg',
     filterValue: 'Knitwear',
   },
   {
@@ -56,7 +56,7 @@ export const CATEGORIES = [
     subtitle: 'Korean lace-collar shirts, embroidered blouses & kurtis',
     description:
       'From crisp Korean crochet-collar shirts and botanical embroidered blouses to breathable pure cotton mirror-work and Ajrakh print kurtis.',
-    image: '/images/categories/tops-tees.jpg',
+    image: '/images/products/korean-lace-shirt-model.jpg',
     filterValue: 'Tops & Tees',
   },
   {
@@ -67,7 +67,7 @@ export const CATEGORIES = [
     subtitle: 'Drawstring linen wide-leg pants, urban joggers & skorts',
     description:
       'Relaxed everyday silhouettes including high-waist drawstring linen trousers, street-ready parachute cargo joggers, and tiered mini skorts.',
-    image: '/images/categories/pants-bottoms.jpg',
+    image: '/images/products/pants-bottoms-model.jpg',
     filterValue: 'Pants & Bottoms',
   },
   {
@@ -78,7 +78,7 @@ export const CATEGORIES = [
     subtitle: 'Pearl-neck midis, watercolor maxis & evening gowns',
     description:
       'Statement one-piece silhouettes ranging from pearl-beaded A-line midi dresses and watercolor floral maxis to 3D butterfly tulle occasion gowns.',
-    image: '/images/categories/dresses.jpg',
+    image: '/images/products/pearl-neck-dress-model.jpg',
     filterValue: 'Dresses',
   },
   {
@@ -89,7 +89,7 @@ export const CATEGORIES = [
     subtitle: 'Fresh weekly drops across women & children collections',
     description:
       'Our latest showroom arrivals in Law Garden—featuring freshly unpacked Korean shirts, 3D floral sweaters, vacation dresses, and kids co-ord sets.',
-    image: '/images/categories/new-arrivals.jpg',
+    image: '/images/products/knit-cardigan-pistachio-model.jpg',
     filterValue: 'new-arrivals',
   },
 ];
