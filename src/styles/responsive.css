@@ -244,14 +244,17 @@
   }
 
   .pdp-page-layout {
-    grid-template-columns: 1.05fr 0.95fr;
-    gap: var(--space-10);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.05fr);
+    justify-content: stretch;
+    gap: 2rem;
+    max-width: 960px;
+    margin-inline: auto;
   }
 
   .pdp-gallery-sticky,
   .pdp-info-sticky {
     position: sticky;
-    top: calc(var(--header-height-desktop) + var(--space-6));
+    top: calc(var(--header-height-desktop) + var(--space-3));
   }
 
   .cart-page-layout {
@@ -350,6 +353,21 @@
 
   .instagram-grid {
     grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .pdp-page-layout {
+    grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: clamp(2.5rem, 3.8vw, 3.8rem);
+    max-width: 1220px;
+    margin-inline: auto;
+  }
+}
+
+@media (min-width: 1280px) {
+  .pdp-page-layout {
+    grid-template-columns: minmax(0, 580px) minmax(0, 560px);
+    gap: 3.8rem;
+    max-width: 1260px;
   }
 }
 
